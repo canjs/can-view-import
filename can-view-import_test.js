@@ -10,7 +10,6 @@ var tag = require('can-view-callbacks').tag;
 require('./can-view-import');
 
 if(window.steal) {
-
 	QUnit.module("can/view/import");
 
 	var test = QUnit.test;
@@ -18,14 +17,14 @@ if(window.steal) {
 
 
 	test("static imports are imported", function(){
-		var iai = getIntermediateAndImports("<can-import from='test/hello'/>" +
+		var iai = getIntermediateAndImports("<can-import from='can-view-import/test/hello'/>" +
 		"<hello-world></hello-world>");
 
 		equal(iai.imports.length, 1, "There is one import");
 	});
 
 	test("dynamic imports are not imported", function(){
-		var iai = getIntermediateAndImports("{{#if a}}<can-import from='test/hello'>" +
+		var iai = getIntermediateAndImports("{{#if a}}<can-import from='can-view-import/test/hello'>" +
 		"<hello-world></hello-world></can-import>{{/if a}}");
 
 		equal(iai.imports.length, 0, "There are no imports");
@@ -34,7 +33,7 @@ if(window.steal) {
 	asyncTest("dynamic imports will only load when in scope", function(){
 		expect(4);
 
-		var iai = getIntermediateAndImports("{{#if a}}<can-import from='test/hello'>" +
+		var iai = getIntermediateAndImports("{{#if a}}<can-import from='can-view-import/test/hello'>" +
 		"{{#eq state 'resolved'}}<hello-world></hello-world>{{/eq}}</can-import>{{/if a}}");
 		var template = stache(iai.intermediate);
 
@@ -44,7 +43,7 @@ if(window.steal) {
 		equal(res.childNodes[0].childNodes.length, 0, "There are no child nodes immediately");
 		a(true);
 
-		importer("test/hello").then(function(){
+		importer("can-view-import/test/hello").then(function(){
 			equal(res.childNodes[0].childNodes.length, 1, "There is now a nested component");
 			equal(res.childNodes[0].childNodes[0].tagName.toUpperCase(), "HELLO-WORLD", "imported the tag");
 			equal(res.childNodes[0].childNodes[0].childNodes[0].nodeValue, "Hello world!", "text inserted");
@@ -55,7 +54,7 @@ if(window.steal) {
 
 
 	test("if a can-tag is present, handed over rendering to that tag", function(){
-		var iai = getIntermediateAndImports("<can-import from='test/hello' can-tag='loading'/>");
+		var iai = getIntermediateAndImports("<can-import from='can-view-import/test/hello' can-tag='loading'/>");
 		tag("loading", function(el){
 			var template = stache("it worked");
 			el.appendChild(template());
@@ -69,27 +68,27 @@ if(window.steal) {
 
 
 	asyncTest("can use an import's value", function(){
-		var template = "<can-import from='test/person' {^value}='*person' />hello {{*person.name}}";
+		var template = "<can-import from='can-view-import/test/person' {^value}='*person' />hello {{*person.name}}";
 
 		var iai = getIntermediateAndImports(template);
 
 		var renderer = stache(iai.intermediate);
 		var res = renderer(new CanMap());
 
-		importer("test/person").then(function(){
+		importer("can-view-import/test/person").then(function(){
 			equal(res.childNodes[2].nodeValue, "world", "Got the person.name from the import");
 			start();
 		});
 	});
 
 	asyncTest("can import a template and use it", function(){
-		var template = "<can-import from='test/other.stache!' {^@value}='*other' />{{{*other()}}}";
+		var template = "<can-import from='can-view-import/test/other.stache!' {^@value}='*other' />{{{*other()}}}";
 
 		stache.async(template).then(function(renderer){
 			var frag = renderer();
 
 			// Import will happen async
-			importer("test/other.stache!").then(function(){
+			importer("can-view-import/test/other.stache!").then(function(){
 				equal(frag.childNodes[3].firstChild.nodeValue, "hi there", "Partial was renderered right after the can-import");
 
 				QUnit.start();
@@ -98,13 +97,13 @@ if(window.steal) {
 	});
 
 	asyncTest("can import a template and use it using the > syntax", function(){
-		var template = "<can-import from='test/other.stache!' {^@value}='*other' />{{> *other}}";
+		var template = "<can-import from='can-view-import/test/other.stache!' {^@value}='*other' />{{> *other}}";
 
 		stache.async(template).then(function(renderer){
 			var frag = renderer();
 
 			// Import will happen async
-			importer("test/other.stache!").then(function(){
+			importer("can-view-import/test/other.stache!").then(function(){
 				equal(frag.childNodes[3].firstChild.nodeValue, "hi there", "Partial was renderered right after the can-import");
 
 				QUnit.start();
@@ -122,12 +121,12 @@ if(window.steal) {
 			"{{/isResolved}}")
 		});
 
-		var template = "<can-import from='test/other.stache!' {^@value}='*other' can-tag='my-waiter'>{{{*other()}}}</can-import>";
+		var template = "<can-import from='can-view-import/test/other.stache!' {^@value}='*other' can-tag='my-waiter'>{{{*other()}}}</can-import>";
 
 		stache.async(template).then(function(renderer){
 			var frag = renderer(new CanMap());
 
-			importer("test/other.stache!").then(function(){
+			importer("can-view-import/test/other.stache!").then(function(){
 				ok(frag.childNodes[0].childNodes.length > 1, "Something besides a text node is inserted");
 				equal(frag.childNodes[0].childNodes[2].firstChild.nodeValue, "hi there", "Partial worked with can-tag");
 
@@ -137,13 +136,13 @@ if(window.steal) {
 	});
 
 	asyncTest("can dynamically import a template and use it", function(){
-		var template = "<can-import from='test/other-dynamic.stache!' {^@value}='*other'/>{{> *other}}";
+		var template = "<can-import from='can-view-import/test/other-dynamic.stache!' {^@value}='*other'/>{{> *other}}";
 
 		stache.async(template).then(function(renderer){
 			var frag = renderer();
 
 			// Import will happen async
-			importer("test/other.stache!").then(function(){
+			importer("can-view-import/test/other.stache!").then(function(){
 				equal(frag.childNodes[3].firstChild.nodeValue, "hi there", "Partial was renderered right after the can-import");
 
 				QUnit.start();
