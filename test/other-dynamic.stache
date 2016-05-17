@@ -1,4 +1,4 @@
-<can-import from="test/thing">
+<can-import from="can-view-import/test/thing">
 
 </can-import>
 
