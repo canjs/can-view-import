@@ -2,57 +2,51 @@
 
 [![Build Status](https://travis-ci.org/canjs/can-view-import.png?branch=master)](https://travis-ci.org/canjs/can-view-import)
 
-Import dependencies in CanJS views
+Import dependencies in Stache views.
 
-## Usage
+- <code>[__can-view-import__ function](#can-view-import-function)</code>
+  - <code>[&lt;can-import from="MODULE_NAME" /&gt;](#ltcan-import-frommodule_name-gt)</code>
+  - <code>[&lt;can-import from="MODULE_NAME"&gt;content&lt;/can-import&gt;](#ltcan-import-frommodule_namegtcontentltcan-importgt)</code>
 
-### ES6 use
+## API
 
-With StealJS, you can import this module directly in a template that is autorendered:
 
-```js
-import plugin from 'can-view-import';
+## <code>__can-view-import__ function</code>
+
+
+
+### <code>&lt;can-import from="MODULE_NAME" /&gt;</code>
+
+
+Statically import a module from with a [stache](https://github.com/canjs/can-stache) template. *MODULE_NAME* will be imported before the template renders.
+
+```
+<can-import from="components/tabs" />
+<tabs-widget />
 ```
 
-### CommonJS use
 
-Use `require` to load `can-view-import` and everything else
-needed to create a template that uses `can-view-import`:
+1. __MODULE_NAME__ <code>{moduleName}</code>:
+  A module that this template depends on.
+  
 
-```js
-var plugin = require("can-view-import");
+### <code>&lt;can-import from="MODULE_NAME"&gt;content&lt;/can-import&gt;</code>
+
+
+Dynamically import a module. *MODULE_NAME* will be imported dynamically; the scope within the template is a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+
+```
+<can-import from="components/tabs">
+	{{#if isResolved}}
+		<tabs-widget />
+	{{/if}}
+</can-import>
 ```
 
-## AMD use
 
-Configure the `can` and `jquery` paths and the `can-view-import` package:
-
-```html
-<script src="require.js"></script>
-<script>
-	require.config({
-	    paths: {
-	        "jquery": "node_modules/jquery/dist/jquery",
-	        "can": "node_modules/canjs/dist/amd/can"
-	    },
-	    packages: [{
-		    	name: 'can-view-import',
-		    	location: 'node_modules/can-view-import/dist/amd',
-		    	main: 'lib/can-view-import'
-	    }]
-	});
-	require(["main-amd"], function(){});
-</script>
-```
-
-### Standalone use
-
-Load the `global` version of the plugin:
-
-```html
-<script src='./node_modules/can-view-import/dist/global/can-view-import.js'></script>
-```
-
+1. __MODULE_NAME__ <code>{moduleName}</code>:
+  A module that this template depends on.
+  
 ## Contributing
 
 ### Making a Build
