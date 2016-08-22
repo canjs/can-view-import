@@ -1,6 +1,5 @@
 var assign = require('can-util/js/assign/assign');
 var canData = require('can-util/dom/data/data');
-var isFunction = require('can-util/js/is-function/is-function');
 var importer = require('can-util/js/import/import');
 
 var nodeLists = require('can-view-nodelist');
@@ -11,7 +10,7 @@ tag("can-import", function(el, tagData){
 	var moduleName = el.getAttribute("from");
 	// If the module is part of the helpers pass that into can.import
 	// as the parentName
-	var templateModule = tagData.options.attr("helpers.module");
+	var templateModule = tagData.options.get("helpers.module");
 	var parentName = templateModule ? templateModule.id : undefined;
 
 	if(!moduleName) {
@@ -19,11 +18,6 @@ tag("can-import", function(el, tagData){
 	}
 
 	var importPromise = importer(moduleName, parentName);
-	var root = tagData.scope.attr("%root");
-
-	if(root && isFunction(root.waitFor)) {
-		root.waitFor(importPromise);
-	}
 
 	// Set the viewModel to the promise
 	canData.set.call(el, "viewModel", importPromise);
