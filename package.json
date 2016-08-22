@@ -1,6 +1,6 @@
 {
   "name": "can-view-import",
-  "version": "3.0.0-pre.2",
+  "version": "3.0.0-pre.3",
   "description": "Import dependencies in CanJS views",
   "homepage": "https://canjs.com",
   "repository": {
@@ -85,12 +85,14 @@
       "bit-docs-generate-readme": "^0.0.8"
     },
     "glob": {
-      "pattern": "**\/*.{js,md}",
-      "ignore": "node_modules\/**\/*"
+      "pattern": "**/*.{js,md}",
+      "ignore": "node_modules/**/*"
     },
-		"readme": {
-			"apis": ["can-view-import"]
-		},
+    "readme": {
+      "apis": [
+        "can-view-import"
+      ]
+    },
     "parent": "can-view-import"
   }
 }
