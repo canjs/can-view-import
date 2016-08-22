@@ -118,15 +118,16 @@ if(window.steal) {
 			"<content></content>" +
 			"{{else}}" +
 			"<div class='loading'></div>" +
-			"{{/isResolved}}")
+			"{{/isResolved}}"),
+			leakScope: true
 		});
 
-		var template = "<can-import from='can-view-import/test/other.stache!' {^@value}='*other' can-tag='my-waiter'>{{{*other()}}}</can-import>";
+		var template = "<can-import from='can-view-import/test/other.stache' {^@value}='*other' can-tag='my-waiter'>{{{*other()}}}</can-import>";
 
 		stache.async(template).then(function(renderer){
 			var frag = renderer(new CanMap());
 
-			importer("can-view-import/test/other.stache!").then(function(){
+			importer("can-view-import/test/other.stache").then(function(){
 				ok(frag.childNodes[0].childNodes.length > 1, "Something besides a text node is inserted");
 				equal(frag.childNodes[0].childNodes[2].firstChild.nodeValue, "hi there", "Partial worked with can-tag");
 
