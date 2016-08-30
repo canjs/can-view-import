@@ -90,7 +90,11 @@
     },
     "readme": {
       "apis": [
-        "can-view-import"
+				{"can-view-import": [
+					"can-view-import.from",
+					"can-view-import.can-tag",
+					"can-view-import.value"
+				]}
       ]
     },
     "parent": "can-view-import"
