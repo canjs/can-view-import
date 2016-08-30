@@ -1,6 +1,6 @@
 {
   "name": "can-view-import",
-  "version": "3.0.0-pre.3",
+  "version": "3.0.0-pre.4",
   "description": "Import dependencies in CanJS views",
   "homepage": "https://canjs.com",
   "repository": {
@@ -90,11 +90,13 @@
     },
     "readme": {
       "apis": [
-				{"can-view-import": [
-					"can-view-import.from",
-					"can-view-import.can-tag",
-					"can-view-import.value"
-				]}
+        {
+          "can-view-import": [
+            "can-view-import.from",
+            "can-view-import.can-tag",
+            "can-view-import.value"
+          ]
+        }
       ]
     },
     "parent": "can-view-import"
