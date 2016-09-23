@@ -27,7 +27,7 @@ var template = stache('{{#isResolved}}<content/>{{else}}<img src="loading.gif"/>
 
 Component.extend({
   tag: "loading-indicator",
-  template: template
+  view: template
 });
 ```
 
