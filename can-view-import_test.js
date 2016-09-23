@@ -114,7 +114,7 @@ if(window.steal) {
 	asyncTest("importing a template works with can-tag", function(){
 		Component.extend({
 			tag: "my-waiter",
-			template: stache("{{#isResolved}}" +
+			view: stache("{{#isResolved}}" +
 			"<content></content>" +
 			"{{else}}" +
 			"<div class='loading'></div>" +
