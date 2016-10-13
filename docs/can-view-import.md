@@ -1,9 +1,10 @@
 @module {function} can-view-import can-view-import
-@parent can-infrastructure
+@parent can-ecosystem
+@package ../package.json
 @group can-view-import.pages 0 Pages
 @group can-view-import.attributes 1 Attributes
 
-@signature `&lt;can-import from="MODULE_NAME" /&gt;`
+@signature `<can-import from="MODULE_NAME" />`
 
 Statically import a module from with a [can-stache] template. *MODULE_NAME* will be imported before the template renders.
 
@@ -14,7 +15,7 @@ Statically import a module from with a [can-stache] template. *MODULE_NAME* will
 
 @param {moduleName} [MODULE_NAME] A module that this template depends on.
 
-@signature `&lt;can-import from="MODULE_NAME"&gt;content&lt;/can-import&gt;`
+@signature `<can-import from="MODULE_NAME">content</can-import>`
 
 Dynamically import a module. *MODULE_NAME* will be imported dynamically; the scope within the template is a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
