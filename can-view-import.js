@@ -18,6 +18,9 @@ tag("can-import", function(el, tagData){
 	}
 
 	var importPromise = importer(moduleName, parentName);
+	importPromise.catch(function(err) {
+		console.error(err);
+	});
 
 	// Set the viewModel to the promise
 	canData.set.call(el, "viewModel", importPromise);
