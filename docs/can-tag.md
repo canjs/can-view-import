@@ -5,7 +5,7 @@
 
 @signature `can-tag="TAG_NAME"`
 
-Instantiates the provided [can-view-callbacks.tag] and sets its [can-component::viewModel viewModel] to be the Promise for the import.
+Instantiates the provided [can-view-callbacks.tag] and sets its [can-component.prototype.view-model viewModel] to be the Promise for the import.
 
 @param {String} TAG_NAME The tag name (usually a [can-component]) to use.
 
@@ -13,14 +13,14 @@ Instantiates the provided [can-view-callbacks.tag] and sets its [can-component::
 
 ## Use
 
-**can-tag** allows for injecting a component, using the imported promise as the
-injected component's view model.
+**can-tag** allows a component to be injected using the imported promise as the
+injected component’s view model.
 
 The example below shows a loading graphic until the cart component has been loaded.
 Once the cart promise is resolved, `<shopping-cart></shopping-cart>` is injected
 into the page.
 
-Loading Indicator Component
+For example, here’s a `loading-indicator` component:
 
 ```
 var template = stache('{{#isResolved}}<content/>{{else}}<img src="loading.gif"/>{{/isResolved}}');
@@ -31,7 +31,7 @@ Component.extend({
 });
 ```
 
-Main Template
+Here’s how `can-tag` can be used to show the loading indicator before the `shopping-cart` component is imported:
 
 ```
 <can-import from="cart" can-tag="loading-indicator">
