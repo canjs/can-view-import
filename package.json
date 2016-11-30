@@ -28,16 +28,6 @@
     "develop": "done-serve --static --develop --port 8080"
   },
   "main": "can-view-import",
-  "browser": {
-    "transform": [
-      "cssify"
-    ]
-  },
-  "browserify": {
-    "transform": [
-      "cssify"
-    ]
-  },
   "keywords": [],
   "system": {
     "main": "can-view-import",
@@ -66,7 +56,6 @@
     "can-compute": "^3.0.0-pre.2",
     "can-map": "^3.0.0-pre.3",
     "can-stache": "^3.0.0-pre.2",
-    "cssify": "^0.6.0",
     "bit-docs": "0.0.6",
     "done-serve": "^0.2.0",
     "donejs-cli": "^0.9.4",
