@@ -6,7 +6,7 @@
 
 @signature `<can-import from="MODULE_NAME" />`
 
-Statically import a module from with a [can-stache] template. *MODULE_NAME* will be imported before the template renders.
+Statically import a module from within a [can-stache] template. *MODULE_NAME* will be imported before the template renders.
 
 ```
 <can-import from="components/tabs" />
@@ -17,13 +17,13 @@ Statically import a module from with a [can-stache] template. *MODULE_NAME* will
 
 @signature `<can-import from="MODULE_NAME">content</can-import>`
 
-Dynamically import a module. *MODULE_NAME* will be imported dynamically; the scope within the template is a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+Dynamically import *MODULE_NAME*; the scope within the template is a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
 ```
 <can-import from="components/tabs">
-	{{#if isResolved}}
-		<tabs-widget />
-	{{/if}}
+  {{#if isResolved}}
+    <tabs-widget />
+  {{/if}}
 </can-import>
 ```
 
@@ -52,26 +52,26 @@ Currently this __only__ works with [can-view-autorender] or the [steal-stache] p
 
 ## Progressive Loading
 
-A template may load or conditionally load a module after the initial page load. `<can-import>` allows progressive loading by using an end tag.
+A template may (conditionally) load a module after the initial page load. `<can-import>` allows progressive loading by using an end tag.
 
-The first example below shows a component being loaded ad hoc. The second illustrates conditionally loading modules based on some application state.
-
-Example:
+This example shows a component being loaded ad hoc:
 
 ```
 <can-import from="components/home"></can-import>
 ```
 
+This example illustrates conditionally loading modules based on some application state:
+
 ```
 {{#eq location 'home'}}
-<can-import from="components/home">
- ...
-</can-import>
+  <can-import from="components/home">
+    ...
+  </can-import>
 {{/eq}}
 
 {{#eq location 'away'}}
-<can-import from="components/away">
-  ...
-</can-import>
+  <can-import from="components/away">
+    ...
+  </can-import>
 {{/eq}}
 ```
