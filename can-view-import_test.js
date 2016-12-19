@@ -162,4 +162,20 @@ if(window.steal) {
 		});
 	}
 
+	if(!System.isEnv("production")) {
+		asyncTest("loading errors are logged to the console", function(){
+			var template = "<can-import from='can-view-import/test/error'></can-import>";
+
+			var error = console.error;
+			console.error = function(type){
+				console.error = error;
+				QUnit.ok(/ERROR/.test(type), "Logged an error that originated from the dynamically imported module");
+				QUnit.start();
+			};
+
+			stache.async(template).then(function(renderer){
+				renderer({});
+			});
+		});
+	}
 }

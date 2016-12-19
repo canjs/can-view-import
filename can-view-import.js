@@ -5,6 +5,7 @@ var importer = require('can-util/js/import/import');
 var nodeLists = require('can-view-nodelist');
 var tag = require('can-view-callbacks').tag;
 var events = require('can-event');
+var canLog = require("can-util/js/log/log");
 
 tag("can-import", function(el, tagData){
 	var moduleName = el.getAttribute("from");
@@ -19,7 +20,7 @@ tag("can-import", function(el, tagData){
 
 	var importPromise = importer(moduleName, parentName);
 	importPromise.catch(function(err) {
-		console.error(err);
+		canLog.error(err);
 	});
 
 	// Set the viewModel to the promise
