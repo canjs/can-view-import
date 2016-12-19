@@ -162,7 +162,7 @@ if(window.steal) {
 		});
 	}
 
-	if(!System.isEnv("production")) {
+	if(!System.isEnv("production") && typeof console === "object") {
 		asyncTest("loading errors are logged to the console", function(){
 			var template = "<can-import from='can-view-import/test/error'></can-import>";
 
