@@ -29,20 +29,6 @@
   },
   "main": "can-view-import",
   "keywords": [],
-  "system": {
-    "main": "can-view-import",
-    "configDependencies": [
-      "live-reload"
-    ],
-    "npmIgnore": [
-      "documentjs",
-      "testee",
-      "generator-donejs",
-      "donejs-cli",
-      "steal-tools"
-    ],
-    "npmAlgorithm": "flat"
-  },
   "dependencies": {
     "can-event": "^3.0.1",
     "can-stache": "^3.0.1",
@@ -52,18 +38,18 @@
     "steal-stache": "^3.0.0"
   },
   "devDependencies": {
-    "can-component": "^3.0.0-pre.3",
-    "can-compute": "^3.0.0-pre.2",
-    "can-map": "^3.0.0-pre.3",
-    "can-stache": "^3.0.0-pre.2",
+    "can-component": "^3.0.0",
+    "can-compute": "^3.0.0",
+    "can-map": "^3.0.0",
+    "can-stache": "^3.0.0",
     "bit-docs": "0.0.7",
     "done-serve": "^0.2.0",
     "donejs-cli": "^0.9.4",
     "generator-donejs": "^0.9.0",
     "jshint": "^2.9.1",
-    "steal": "^0.16.0",
-    "steal-qunit": "^0.1.1",
-    "steal-tools": "^0.16.0",
+    "steal": "^1.2.0",
+    "steal-qunit": "^1.0.0",
+    "steal-tools": "^1.0.0",
     "testee": "^0.3.0"
   },
   "bit-docs": {
