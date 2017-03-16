@@ -43,7 +43,7 @@
     "can-map": "^3.0.0",
     "can-stache": "^3.0.0",
     "bit-docs": "0.0.7",
-    "done-serve": "^0.2.0",
+    "done-serve": "^1.0.0",
     "donejs-cli": "^0.9.4",
     "generator-donejs": "^0.9.0",
     "jshint": "^2.9.1",
