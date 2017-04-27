@@ -1,7 +1,9 @@
 var assign = require('can-util/js/assign/assign');
 var canData = require('can-util/dom/data/data');
+var DOCUMENT = require("can-util/dom/document/document");
+var getChildNodes = require('can-util/dom/child-nodes/child-nodes');
 var importer = require('can-util/js/import/import');
-
+var mutate = require("can-util/dom/mutate/mutate");
 var nodeLists = require('can-view-nodelist');
 var tag = require('can-view-callbacks').tag;
 var events = require('can-event');
@@ -47,14 +49,16 @@ tag("can-import", function(el, tagData){
 	else {
 		var frag = tagData.subtemplate ?
 			tagData.subtemplate(scope, tagData.options) :
-			document.createDocumentFragment();
+			DOCUMENT().createDocumentFragment();
 
-		var nodeList = nodeLists.register([], undefined, true);
+		var nodeList = nodeLists.register([], undefined, tagData.parentNodeList || true);
+		nodeList.expression = "<can-import>";
+
 		events.one.call(el, "removed", function(){
 			nodeLists.unregister(nodeList);
 		});
 
-		el.appendChild(frag);
-		nodeLists.update(nodeList, el.childNodes);
+		mutate.appendChild.call(el, frag);
+		nodeLists.update(nodeList, getChildNodes(el));
 	}
 });
