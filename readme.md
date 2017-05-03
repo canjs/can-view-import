@@ -1,5 +1,7 @@
 # can-view-import
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/canjs/can-view-import.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/canjs/can-view-import.png?branch=master)](https://travis-ci.org/canjs/can-view-import)
 
 Import dependencies in Stache views.
