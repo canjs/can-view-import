@@ -33,7 +33,7 @@
     "can-event": "^3.5.0-pre.2",
     "can-util": "^3.9.0-pre.4",
     "can-view-callbacks": "^3.0.7-pre.1",
-    "can-view-nodelist": "^3.0.0",
+    "can-view-nodelist": "^3.1.0-pre.0",
     "steal-stache": "^3.1.0-pre.0"
   },
   "devDependencies": {
