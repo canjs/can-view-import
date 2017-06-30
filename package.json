@@ -32,7 +32,7 @@
   "dependencies": {
     "can-event": "^3.5.0-pre.2",
     "can-util": "^3.9.0-pre.4",
-    "can-view-callbacks": "^3.1.0-pre.0",
+    "can-view-callbacks": "^3.2.0",
     "can-view-nodelist": "^3.1.0-pre.0",
     "steal-stache": "^3.1.0-pre.0"
   },
