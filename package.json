@@ -39,7 +39,7 @@
   "devDependencies": {
     "bit-docs": "0.0.7",
     "can-component": "^3.1.0-pre.0",
-    "can-compute": "^3.1.0-pre.9",
+    "can-compute": "^3.3.1",
     "can-map": "^3.1.0-pre.10",
     "can-stache": "^3.1.0-pre.4",
     "done-serve": "^0.2.0",
