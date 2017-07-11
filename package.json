@@ -24,32 +24,28 @@
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
     "build": "node build.js",
-    "document": "bit-docs",
-    "develop": "done-serve --static --develop --port 8080"
+    "document": "bit-docs"
   },
   "main": "can-view-import",
   "keywords": [],
   "dependencies": {
     "can-event": "^3.5.0-pre.2",
-    "can-util": "^3.9.0-pre.4",
+    "can-util": "^3.9.5",
     "can-view-callbacks": "^3.2.0",
     "can-view-nodelist": "^3.1.0-pre.0",
     "steal-stache": "^3.1.0-pre.0"
   },
   "devDependencies": {
     "bit-docs": "0.0.7",
-    "can-component": "^3.1.0-pre.0",
-    "can-compute": "^3.1.0-pre.9",
-    "can-map": "^3.1.0-pre.10",
+    "can-component": "^3.2.2",
+    "can-compute": "^3.3.1",
+    "can-map": "^3.3.1",
     "can-stache": "^3.1.0-pre.4",
-    "done-serve": "^0.2.0",
-    "donejs-cli": "^0.9.4",
-    "generator-donejs": "^0.9.0",
     "jshint": "^2.9.1",
     "steal": "^1.2.0",
     "steal-qunit": "^1.0.0",
     "steal-tools": "^1.0.0",
-    "testee": "^0.4.0"
+    "testee": "^0.7.0"
   },
   "bit-docs": {
     "dependencies": {
