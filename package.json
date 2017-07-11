@@ -40,7 +40,7 @@
     "can-component": "^3.2.2",
     "can-compute": "^3.3.1",
     "can-map": "^3.3.1",
-    "can-stache": "^3.1.0-pre.4",
+    "can-stache": "^3.3.0",
     "jshint": "^2.9.1",
     "steal": "^1.2.0",
     "steal-qunit": "^1.0.0",
