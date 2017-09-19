@@ -1,9 +1,9 @@
-@function can-view-import.value {^value}
+@function can-view-import.value value:to
 @parent can-view-import.attributes
 
 @description Set the value that is returned from the [can-view-import can-import] Promise to a [can-stache-bindings.reference reference scope] variable.
 
-@signature `{^value}="*NAME"`
+@signature `value:to="*NAME"`
 
 Sets up a [can-stache-bindings.toParent] binding to \*NAME in the references scope.
 
