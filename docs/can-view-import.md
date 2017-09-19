@@ -17,7 +17,7 @@ Statically import a module from within a [can-stache] template. *MODULE_NAME* wi
 
 @signature `<can-import from="MODULE_NAME">content</can-import>`
 
-Dynamically import *MODULE_NAME*; the scope within the template is a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+Dynamically import *MODULE_NAME* if *content* is anything other than whitespace; the scope within the template is a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
 ```
 <can-import from="components/tabs">
@@ -25,6 +25,20 @@ Dynamically import *MODULE_NAME*; the scope within the template is a [Promise](h
     <tabs-widget />
   {{/if}}
 </can-import>
+```
+
+@param {moduleName} [MODULE_NAME] A module that this template depends on.
+
+@signature `<can-dynamic-import from="MODULE_NAME">content</can-import>`
+
+Dynamically import *MODULE_NAME*; the scope within the template is a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+
+```
+<can-dynamic-import from="components/tabs">
+  {{#if isResolved}}
+    <tabs-widget />
+  {{/if}}
+</can-dynamic-import>
 ```
 
 @param {moduleName} [MODULE_NAME] A module that this template depends on.
@@ -44,7 +58,7 @@ Dynamically import a module from within a [can-stache] template. Since there is 
 <can-dynamic-import from="components/tabs" 
 	isPending:to="*tabsWidgetPending"
 	isRejected:to="*tabsWidgetError"
-	*tabs-widget-promise />
+	this:to"*tabsWidgetPromise" />
 {{#if *tabsWidgetPending}}
 	Loading...
 {{else}}
@@ -54,26 +68,17 @@ Dynamically import a module from within a [can-stache] template. Since there is 
 	{{/if}}
 {{/if}}
 
+{{! load a stache partial 
+	 -- staches are functions, so prefix it with `@` to put the function in the ref scope without running it }}
+
+<can-dynamic-import from "my-partial.stache!" @value:to="*myPartial" />
+
+{{> *myPartial}}
+
+
 ```
 
 @param {moduleName} [MODULE_NAME] A module that this template depends on.
-
-
-@signature `<can-dynamic-import from="MODULE_NAME">content</can-import>`
-
-Dynamically import *MODULE_NAME*; the scope within the template is a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
-
-```
-<can-dynamic-import from="components/tabs">
-  {{#if isResolved}}
-    <tabs-widget />
-  {{/if}}
-</can-import>
-```
-
-@param {moduleName} [MODULE_NAME] A module that this template depends on.
-
-
 
 @body
 
