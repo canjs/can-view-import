@@ -9,7 +9,8 @@ var tag = require('can-view-callbacks').tag;
 var events = require('can-event');
 var canLog = require("can-util/js/log/log");
 
-tag("can-import", function(el, tagData){
+function processImport(el, tagData) {
+
 	var moduleName = el.getAttribute("from");
 	// If the module is part of the helpers pass that into can.import
 	// as the parentName
@@ -52,7 +53,7 @@ tag("can-import", function(el, tagData){
 			DOCUMENT().createDocumentFragment();
 
 		var nodeList = nodeLists.register([], undefined, tagData.parentNodeList || true);
-		nodeList.expression = "<can-import>";
+		nodeList.expression = "<" + this.tagName + ">";
 
 		events.one.call(el, "removed", function(){
 			nodeLists.unregister(nodeList);
@@ -61,4 +62,8 @@ tag("can-import", function(el, tagData){
 		mutate.appendChild.call(el, frag);
 		nodeLists.update(nodeList, getChildNodes(el));
 	}
+}
+
+["can-import", "can-dynamic-import"].forEach(function(tagName) {
+	tag(tagName, processImport.bind({ tagName: tagName }));
 });

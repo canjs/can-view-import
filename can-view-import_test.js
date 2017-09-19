@@ -69,7 +69,7 @@ if(window.steal) {
 
 	if (!System.isEnv('production')) {
 		asyncTest("can use an import's value", function(){
-			var template = "<can-import from='can-view-import/test/person' {^value}='*person' />hello {{*person.name}}";
+			var template = "<can-import from='can-view-import/test/person' @value:to='*person' />hello {{*person.name}}";
 
 			var iai = getIntermediateAndImports(template);
 
@@ -85,7 +85,7 @@ if(window.steal) {
 
 	if (!System.isEnv('production')) {
 		asyncTest("can import a template and use it", function(){
-			var template = "<can-import from='can-view-import/test/other.stache!' {^@value}='*other' />{{{*other()}}}";
+			var template = "<can-import from='can-view-import/test/other.stache!' @value:to='*other' />{{{*other()}}}";
 
 			stache.async(template).then(function(renderer){
 				var frag = renderer();
@@ -102,7 +102,7 @@ if(window.steal) {
 
 	if (!System.isEnv('production')) {
 		asyncTest("can import a template and use it using the > syntax", function(){
-			var template = "<can-import from='can-view-import/test/other.stache!' {^@value}='*other' />{{> *other}}";
+			var template = "<can-import from='can-view-import/test/other.stache!' @value:to='*other' />{{> *other}}";
 
 			stache.async(template).then(function(renderer){
 				var frag = renderer();
@@ -129,7 +129,7 @@ if(window.steal) {
 				leakScope: true
 			});
 
-			var template = "<can-import from='can-view-import/test/other.stache' {^@value}='*other' can-tag='my-waiter'>{{{*other()}}}</can-import>";
+			var template = "<can-import from='can-view-import/test/other.stache' @value:to='*other' can-tag='my-waiter'>{{{*other()}}}</can-import>";
 
 			stache.async(template).then(function(renderer){
 				var frag = renderer(new CanMap());
@@ -145,8 +145,38 @@ if(window.steal) {
 	}
 
 	if (!System.isEnv('production')) {
-		asyncTest("can dynamically import a template and use it", function(){
-			var template = "<can-import from='can-view-import/test/other-dynamic.stache!' {^@value}='*other'/>{{> *other}}";
+		asyncTest("can dynamically import a template with can-import and use it", function(){
+			var template = "<can-import from='can-view-import/test/other-dynamic.stache!' @value:to='*other'/>{{> *other}}";
+
+			stache.async(template).then(function(renderer){
+				var frag = renderer();
+
+				// Import will happen async
+				importer("can-view-import/test/other.stache!").then(function(){
+					equal(frag.childNodes[3].firstChild.nodeValue, "hi there", "Partial was renderered right after the can-import");
+
+					QUnit.start();
+				});
+			});
+
+		});
+		asyncTest("can dynamically import a template with can-dynamic-import (self-closing) and use it", function(){
+			var template = "<can-import from='can-view-import/test/other-dynamic-unary.stache!' @value:to='*other'/>{{> *other}}";
+
+			stache.async(template).then(function(renderer){
+				var frag = renderer();
+
+				// Import will happen async
+				importer("can-view-import/test/other.stache!").then(function(){
+					equal(frag.childNodes[3].firstChild.nodeValue, "hi there", "Partial was renderered right after the can-import");
+
+					QUnit.start();
+				});
+			});
+
+		});
+		asyncTest("can dynamically import a template with can-dynamic-import and use it", function(){
+			var template = "<can-import from='can-view-import/test/other-dynamic-block.stache!' @value:to='*other'/>{{> *other}}";
 
 			stache.async(template).then(function(renderer){
 				var frag = renderer();
@@ -164,7 +194,7 @@ if(window.steal) {
 
 	if(!System.isEnv("production") && typeof console === "object") {
 		asyncTest("loading errors are logged to the console", function(){
-			var template = "<can-import from='can-view-import/test/error'></can-import>";
+			var template = "<can-import from='can-view-import/test/error'>{{foo}}</can-import>";
 
 			var error = console.error;
 			console.error = function(type){

@@ -3,18 +3,16 @@
 
 Dynamic imports are used in conditional situations such as within an [can-stache.helpers.if] to prevent unnecessarily fetching resources that might not be needed in all cases.
 
-To make your import be loaded dynamically it *cannot* be self closing (i.e. `/>`) but rather it must have a closing tag (i.e. `</can-import>`).
-
 ### Example
 
-These `can-import` and Steal import examples are equivalent:
+These `can-dynamic-import` and Steal import examples are equivalent:
 
 ```
-<can-import from="components/foobar">
+<can-dynamic-import from="components/foobar">
   {{#if isResolved}}
     <foobar/>
   {{/if}}
-</can-import>
+</can-dynamic-import>
 ```
 
 ```
