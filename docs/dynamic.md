@@ -5,7 +5,7 @@ Dynamic imports are used in conditional situations such as within an [can-stache
 
 ### Example
 
-These `can-import` and Steal import examples are equivalent:
+These `can-dynamic-import` and Steal import examples are equivalent:
 
 ```
 <can-dynamic-import from="components/foobar">

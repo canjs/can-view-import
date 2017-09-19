@@ -69,7 +69,7 @@ if(window.steal) {
 
 	if (!System.isEnv('production')) {
 		asyncTest("can use an import's value", function(){
-			var template = "<can-import from='can-view-import/test/person' ^value:to='*person' />hello {{*person.name}}";
+			var template = "<can-import from='can-view-import/test/person' @value:to='*person' />hello {{*person.name}}";
 
 			var iai = getIntermediateAndImports(template);
 
