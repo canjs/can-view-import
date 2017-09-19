@@ -8,8 +8,11 @@ var nodeLists = require('can-view-nodelist');
 var tag = require('can-view-callbacks').tag;
 var events = require('can-event');
 var canLog = require("can-util/js/log/log");
+var canMakeArray = require("can-util/js/make-array/make-array");
 
-tag("can-import", function(el, tagData){
+
+function processImport(el, tagData) {
+
 	var moduleName = el.getAttribute("from");
 	// If the module is part of the helpers pass that into can.import
 	// as the parentName
@@ -47,12 +50,29 @@ tag("can-import", function(el, tagData){
 	}
 	// Render the subtemplate and register nodeLists
 	else {
-		var frag = tagData.subtemplate ?
-			tagData.subtemplate(scope, tagData.options) :
-			DOCUMENT().createDocumentFragment();
+		var frag; 
+
+		if(tagData.subtemplate) { 
+			frag = tagData.subtemplate(scope, tagData.options);
+		}
+		if(frag && this.tagName === "can-import") {
+			var childNodes = canMakeArray(frag.childNodes);
+		  for(var i = 0; i < childNodes.length; i++) {
+				if(
+					childNodes[i].nodeType === 1 ||
+					childNodes[i].nodeType === 3 && childNodes[i].textContent.trim().length < 0
+				) {
+					frag = null;
+					break;
+				}
+			}
+		}
+		if(!frag) {
+			frag = DOCUMENT().createDocumentFragment();
+		}
 
 		var nodeList = nodeLists.register([], undefined, tagData.parentNodeList || true);
-		nodeList.expression = "<can-import>";
+		nodeList.expression = "<" + this.tagName + ">";
 
 		events.one.call(el, "removed", function(){
 			nodeLists.unregister(nodeList);
@@ -61,4 +81,7 @@ tag("can-import", function(el, tagData){
 		mutate.appendChild.call(el, frag);
 		nodeLists.update(nodeList, getChildNodes(el));
 	}
-});
+}
+
+tag("can-import", processImport.bind({ tagName: "can-import" }));
+tag("can-dynamic-import", processImport.bind({ tagName: "can-dynamic-import" }));
