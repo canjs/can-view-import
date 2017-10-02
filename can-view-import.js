@@ -5,9 +5,11 @@ var getChildNodes = require('can-util/dom/child-nodes/child-nodes');
 var importer = require('can-util/js/import/import');
 var mutate = require("can-util/dom/mutate/mutate");
 var nodeLists = require('can-view-nodelist');
-var tag = require('can-view-callbacks').tag;
+var viewCallbacks = require('can-view-callbacks');
+var tag = viewCallbacks.tag;
 var events = require('can-event');
 var canLog = require("can-util/js/log/log");
+var dev = require("can-util/js/dev/dev");
 
 function processImport(el, tagData) {
 
@@ -35,16 +37,25 @@ function processImport(el, tagData) {
 
 	// If there is a can-tag present we will hand-off rendering to that tag.
 	var handOffTag = el.getAttribute("can-tag");
+
 	if(handOffTag) {
 		var callback = tag(handOffTag);
-		canData.set.call(el,"preventDataBindings", true);
-		callback(el, assign(tagData, {
-			scope: scope
-		}));
-		canData.set.call(el,"preventDataBindings", false);
 
-		canData.set.call(el, "viewModel", importPromise);
-		canData.set.call(el, "scope", importPromise);
+		// Verify hand off tag has been registered. Callback can be undefined or noop.
+		if (!callback || callback === viewCallbacks.defaultCallback) {
+			//!steal-remove-start
+			dev.error(new Error("The tag '" + handOffTag + "' has not been properly registered."));
+			//!steal-remove-end
+		} else {
+			canData.set.call(el, "preventDataBindings", true);
+			callback(el, assign(tagData, {
+				scope: scope
+			}));
+			canData.set.call(el, "preventDataBindings", false);
+
+			canData.set.call(el, "viewModel", importPromise);
+			canData.set.call(el, "scope", importPromise);
+		}
 	}
 	// Render the subtemplate and register nodeLists
 	else {
