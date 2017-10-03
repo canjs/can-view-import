@@ -6,6 +6,7 @@ var getIntermediateAndImports = require('can-stache/src/intermediate_and_imports
 var QUnit = require('steal-qunit');
 var importer = require('can-util/js/import/import');
 var tag = require('can-view-callbacks').tag;
+var testHelpers = require('can-test-helpers');
 
 require('./can-view-import');
 
@@ -14,7 +15,6 @@ if(window.steal) {
 
 	var test = QUnit.test;
 	var equal = QUnit.equal;
-
 
 	test("static imports are imported", function(){
 		var iai = getIntermediateAndImports("<can-import from='can-view-import/test/hello'/>" +
@@ -53,8 +53,6 @@ if(window.steal) {
 		});
 	}
 
-
-
 	test("if a can-tag is present, handed over rendering to that tag", function(){
 		var iai = getIntermediateAndImports("<can-import from='can-view-import/test/hello' can-tag='loading'/>");
 		tag("loading", function(el){
@@ -65,6 +63,32 @@ if(window.steal) {
 
 		var res = template();
 		equal(res.childNodes[0].childNodes[0].nodeValue, "it worked", "Rendered with the can-tag");
+	});
+
+	// Issue #2 "can-import can-tag fails silently when tag does not exist"
+	//  https://github.com/canjs/can-view-import/issues/2
+	testHelpers.dev.devOnlyTest("if a can-tag is present, but not registered, should throw error (#2)", function(){
+		var iai = getIntermediateAndImports("<can-import from='can-view-import/test/hello' can-tag='not-exist'/>");
+		var template = stache(iai.intermediate);
+		var finishWarningCheck = testHelpers.dev.willError("The tag 'not-exist' has not been properly registered.", function(message, matched) {
+			if(matched) {
+				ok(true, "Error message properly sent");
+			}
+		});
+		template();
+		finishWarningCheck();
+	});
+
+	testHelpers.dev.devOnlyTest("if a can-tag is present, but not registered, should throw error (#2)", function(){
+		var iai = getIntermediateAndImports("<can-import from='can-view-import/test/hello' can-tag='notexist'/>");
+		var template = stache(iai.intermediate);
+		var finishWarningCheck = testHelpers.dev.willError("The tag 'notexist' has not been properly registered.", function(message, matched) {
+			if(matched) {
+				ok(true, "Error message properly sent");
+			}
+		});
+		template();
+		finishWarningCheck();
 	});
 
 	if (!System.isEnv('production')) {
