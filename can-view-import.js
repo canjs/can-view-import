@@ -1,6 +1,6 @@
-var assign = require('can-util/js/assign/assign');
-var canData = require('can-util/dom/data/data');
-var DOCUMENT = require("can-util/dom/document/document");
+var assign = require('can-assign');
+var canData = require('can-dom-data-state');
+var DOCUMENT = require("can-globals/document/document");
 var getChildNodes = require('can-util/dom/child-nodes/child-nodes');
 var importer = require('can-util/js/import/import');
 var mutate = require("can-util/dom/mutate/mutate");
@@ -8,8 +8,8 @@ var nodeLists = require('can-view-nodelist');
 var viewCallbacks = require('can-view-callbacks');
 var tag = viewCallbacks.tag;
 var events = require('can-event');
-var canLog = require("can-util/js/log/log");
-var dev = require("can-util/js/dev/dev");
+var canLog = require("can-log/");
+var dev = require("can-log/dev/dev");
 
 function processImport(el, tagData) {
 

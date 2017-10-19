@@ -24,17 +24,20 @@
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
     "build": "node build.js",
-    "detect-cycle": "detect-cyclic-packages --ignore done-serve"
+    "detect-cycle": "detect-cyclic-packages --ignore done-serve,steal-stache"
   },
   "main": "can-view-import",
   "keywords": [],
   "dependencies": {
+    "can-assign": "^1.0.0",
+    "can-dom-data-state": "^0.1.1",
     "can-event": "^3.6.0",
+    "can-globals": "^0.2.3",
+    "can-log": "^0.1.0",
     "can-stache": "^3.7.3",
     "can-util": "^3.9.5",
     "can-view-callbacks": "^3.2.0",
-    "can-view-nodelist": "^3.1.0",
-    "steal-stache": "^3.1.0"
+    "can-view-nodelist": "^3.1.0"
   },
   "devDependencies": {
     "bit-docs": "0.0.7",
@@ -47,6 +50,7 @@
     "jshint": "^2.9.1",
     "steal": "^1.2.0",
     "steal-qunit": "^1.0.0",
+    "steal-stache": "^3.1.0",
     "steal-tools": "^1.0.0",
     "testee": "^0.7.0"
   }
