@@ -7,9 +7,11 @@ var mutate = require("can-util/dom/mutate/mutate");
 var nodeLists = require('can-view-nodelist');
 var viewCallbacks = require('can-view-callbacks');
 var tag = viewCallbacks.tag;
-var events = require('can-event');
 var canLog = require("can-log/");
 var dev = require("can-log/dev/dev");
+var domEvents = require("can-util/dom/events/events");
+require("can-util/dom/events/removed/removed");
+
 
 function processImport(el, tagData) {
 
@@ -65,10 +67,11 @@ function processImport(el, tagData) {
 
 		var nodeList = nodeLists.register([], undefined, tagData.parentNodeList || true);
 		nodeList.expression = "<" + this.tagName + ">";
-
-		events.one.call(el, "removed", function(){
+		var removedHandler = function(){
+			domEvents.removeEventListener.call(el, "removed", removedHandler)
 			nodeLists.unregister(nodeList);
-		});
+		}
+		domEvents.addEventListener.call(el, "removed", removedHandler);
 
 		mutate.appendChild.call(el, frag);
 		nodeLists.update(nodeList, getChildNodes(el));

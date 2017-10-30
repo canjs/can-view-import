@@ -1,6 +1,6 @@
 {
   "name": "can-view-import",
-  "version": "3.2.2",
+  "version": "4.0.0-pre.0",
   "description": "Import dependencies in CanJS views",
   "homepage": "https://canjs.com",
   "repository": {
@@ -13,9 +13,8 @@
     "url": "http://bitovi.com"
   },
   "scripts": {
-    "preversion": "npm test && npm run build",
-    "version": "git commit -am \"Update dist for release\" && git checkout -b release && git add -f dist/",
-    "postversion": "git push --tags && git checkout master && git branch -D release && git push",
+    "preversion": "npm test",
+    "postpublish": "git push --tags && git push",
     "testee": "testee test/test.html --browsers firefox",
     "test": "npm run detect-cycle && npm run jshint && npm run testee",
     "jshint": "jshint ./*.js --config",
@@ -23,7 +22,6 @@
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
-    "build": "node build.js",
     "detect-cycle": "detect-cyclic-packages --ignore done-serve,steal-stache"
   },
   "main": "can-view-import",
@@ -34,17 +32,17 @@
     "can-event": "^3.6.0",
     "can-globals": "^0.2.3",
     "can-log": "^0.1.0",
-    "can-stache": "^3.7.3",
+    "can-stache": "^4.0.0-pre.0",
     "can-util": "^3.9.5",
-    "can-view-callbacks": "^3.2.0",
+    "can-view-callbacks": "^4.0.0-pre.0",
     "can-view-nodelist": "^3.1.0"
   },
   "devDependencies": {
     "bit-docs": "0.0.7",
-    "can-component": "^3.2.2",
-    "can-compute": "^3.3.1",
-    "can-map": "^3.3.1",
-    "can-stache": "^3.3.0",
+    "can-component": "^4.0.0-pre.0",
+    "can-simple-map": "^4.0.0-pre.0",
+    "can-simple-observable": "^2.0.0-pre.16",
+    "can-stache": "^4.0.0-pre.0",
     "can-test-helpers": "^1.0.1",
     "detect-cyclic-packages": "^1.1.0",
     "jshint": "^2.9.1",
