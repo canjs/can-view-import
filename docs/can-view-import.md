@@ -1,5 +1,6 @@
 @module {function} can-view-import can-view-import
-@parent can-ecosystem
+@parent can-views
+@collection can-ecosystem
 @package ../package.json
 @group can-view-import.pages 0 Pages
 @group can-view-import.attributes 1 Attributes
