@@ -68,9 +68,9 @@ function processImport(el, tagData) {
 		var nodeList = nodeLists.register([], undefined, tagData.parentNodeList || true);
 		nodeList.expression = "<" + this.tagName + ">";
 		var removedHandler = function(){
-			domEvents.removeEventListener.call(el, "removed", removedHandler)
+			domEvents.removeEventListener.call(el, "removed", removedHandler);
 			nodeLists.unregister(nodeList);
-		}
+		};
 		domEvents.addEventListener.call(el, "removed", removedHandler);
 
 		mutate.appendChild.call(el, frag);

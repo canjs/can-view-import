@@ -1,5 +1,5 @@
 var SimpleMap = require('can-simple-map');
-var Component = require('can-component');
+//var Component = require('can-component');
 var stache = require('can-stache');
 var getIntermediateAndImports = require('can-stache/src/intermediate_and_imports');
 var QUnit = require('steal-qunit');
