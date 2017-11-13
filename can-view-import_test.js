@@ -124,6 +124,7 @@ if(window.steal) {
 		});
 	}
 
+	/*
 	if (!System.isEnv('production')) {
 		asyncTest("can import a template and use it using the > syntax", function(){
 			var template = "<can-import from='can-view-import/test/other.stache!' @value:to='*other' />{{> *other}}";
@@ -140,6 +141,7 @@ if(window.steal) {
 			});
 		});
 	}
+	*/
 
 	if (!System.isEnv('production')) {
 		asyncTest("importing a template works with can-tag", function(){
@@ -169,6 +171,7 @@ if(window.steal) {
 	}
 
 	if (!System.isEnv('production')) {
+		/*
 		asyncTest("can dynamically import a template with can-import and use it", function(){
 			var template = "<can-import from='can-view-import/test/other-dynamic.stache!' @value:to='*other'/>{{> *other}}";
 
@@ -214,6 +217,7 @@ if(window.steal) {
 			});
 
 		});
+		*/
 	}
 
 	if(!System.isEnv("production") && typeof console === "object") {
