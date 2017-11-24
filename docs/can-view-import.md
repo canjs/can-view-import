@@ -30,7 +30,7 @@ Dynamically import *MODULE_NAME* if *content* is anything other than whitespace;
 
 @param {moduleName} [MODULE_NAME] A module that this template depends on.
 
-@signature `<can-dynamic-import from="MODULE_NAME">content</can-import>`
+@signature `<can-dynamic-import from="MODULE_NAME">content</can-dynamic-import>`
 
 Dynamically import *MODULE_NAME*; the scope within the template is a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
