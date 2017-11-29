@@ -18,7 +18,7 @@ function processImport(el, tagData) {
 	var moduleName = el.getAttribute("from");
 	// If the module is part of the helpers pass that into can.import
 	// as the parentName
-	var templateModule = tagData.options.get("helpers.module");
+	var templateModule = tagData.scope.get("scope.helpers.module");
 	var parentName = templateModule ? templateModule.id : undefined;
 
 	if(!moduleName) {
