@@ -30,7 +30,7 @@
     "can-assign": "^1.0.0",
     "can-dom-data-state": "^0.2.0",
     "can-event": "^3.6.0",
-    "can-globals": "^0.2.3",
+    "can-globals": "<2.0.0",
     "can-log": "^0.1.0",
     "can-util": "^3.9.5",
     "can-view-callbacks": "^4.0.0-pre.4",
