@@ -1,5 +1,5 @@
 var SimpleMap = require('can-simple-map');
-//var Component = require('can-component');
+var Component = require('can-component');
 var stache = require('can-stache');
 var getIntermediateAndImports = require('can-stache/src/intermediate_and_imports');
 var QUnit = require('steal-qunit');
@@ -106,6 +106,32 @@ if(window.steal) {
 			});
 		});
 	}
+
+	testHelpers.dev.devOnlyTest("importing a template works with can-tag", function(assert){
+		var done = assert.async();
+		Component.extend({
+			tag: "my-waiter",
+			view: stache("{{#isResolved}}" +
+			"<content></content>" +
+			"{{else}}" +
+			"<div class='loading'></div>" +
+			"{{/isResolved}}"),
+			leakScope: true
+		});
+
+		var template = "<can-import from='can-view-import/test/other.stache' @value:to='*other' can-tag='my-waiter'>{{{*other()}}}</can-import>";
+
+		stache.async(template).then(function(renderer){
+			var frag = renderer(new SimpleMap());
+
+			importer("can-view-import/test/other.stache").then(function(){
+				ok(frag.childNodes[0].childNodes.length > 1, "Something besides a text node is inserted");
+				equal(frag.childNodes[0].childNodes[2].firstChild.nodeValue, "hi there", "Partial worked with can-tag");
+
+				done();
+			});
+		});
+	});
 	/*
 	if (!System.isEnv('production')) {
 		asyncTest("can import a template and use it", function(){
@@ -134,33 +160,6 @@ if(window.steal) {
 				// Import will happen async
 				importer("can-view-import/test/other.stache!").then(function(){
 					equal(frag.childNodes[3].firstChild.nodeValue, "hi there", "Partial was renderered right after the can-import");
-
-					QUnit.start();
-				});
-			});
-		});
-	}
-
-	if (!System.isEnv('production')) {
-		asyncTest("importing a template works with can-tag", function(){
-			Component.extend({
-				tag: "my-waiter",
-				view: stache("{{#isResolved}}" +
-				"<content></content>" +
-				"{{else}}" +
-				"<div class='loading'></div>" +
-				"{{/isResolved}}"),
-				leakScope: true
-			});
-
-			var template = "<can-import from='can-view-import/test/other.stache' @value:to='*other' can-tag='my-waiter'>{{{*other()}}}</can-import>";
-
-			stache.async(template).then(function(renderer){
-				var frag = renderer(new SimpleMap());
-
-				importer("can-view-import/test/other.stache").then(function(){
-					ok(frag.childNodes[0].childNodes.length > 1, "Something besides a text node is inserted");
-					equal(frag.childNodes[0].childNodes[2].firstChild.nodeValue, "hi there", "Partial worked with can-tag");
 
 					QUnit.start();
 				});
