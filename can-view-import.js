@@ -33,7 +33,7 @@ function processImport(el, tagData) {
 	canData.set.call(el, "scope", importPromise);
 
 	// Set the scope
-	var scope = tagData.scope.add(importPromise);
+	var scope = tagData.scope.add(importPromise, { notContext: true });
 
 	// If there is a can-tag present we will hand-off rendering to that tag.
 	var handOffTag = el.getAttribute("can-tag");
