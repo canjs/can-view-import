@@ -155,8 +155,14 @@ if(window.steal) {
 
 			var template = "<can-import from='can-view-import/test/other.stache' @value:to='*other' can-tag='my-waiter'>{{{*other()}}}</can-import>";
 
+			var finishWarningCheck = testHelpers.dev.willWarn(/is not in the current scope/, function(message, matched) {
+				QUnit.notOk(matched, "importPromise throws a false-positive warning (#83)");
+			});
+
 			stache.async(template).then(function(renderer){
 				var frag = renderer(new SimpleMap());
+
+				finishWarningCheck();
 
 				importer("can-view-import/test/other.stache").then(function(){
 					ok(frag.childNodes[0].childNodes.length > 1, "Something besides a text node is inserted");
