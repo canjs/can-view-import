@@ -29,20 +29,20 @@
   "dependencies": {
     "can-assign": "^1.0.0",
     "can-dom-data-state": "^0.2.0",
-    "can-dom-mutate": "git://github.com/canjs/can-dom-mutate.git#four",
+    "can-dom-mutate": "<2.0.0",
     "can-globals": "<2.0.0",
     "can-log": "^0.1.0",
     "can-symbol": "^1.5.0",
     "can-util": "^3.9.5",
-    "can-view-callbacks": "git://github.com/canjs/can-view-callbacks.git#magneto",
-    "can-view-nodelist": "git://github.com/canjs/can-view-nodelist.git#magneto"
+    "can-view-callbacks": "^4.0.0-pre.9",
+    "can-view-nodelist": "^4.0.0-pre.5"
   },
   "devDependencies": {
     "bit-docs": "0.0.7",
-    "can-component": "git://github.com/canjs/can-component.git#magneto",
+    "can-component": "^4.0.0-pre.25",
     "can-simple-map": "^4.0.0-pre.13",
     "can-simple-observable": "^2.0.0-pre.23",
-    "can-stache": "git://github.com/canjs/can-stache.git#magneto",
+    "can-stache": "^4.0.0-pre.48",
     "can-test-helpers": "^1.0.1",
     "detect-cyclic-packages": "^1.1.0",
     "jshint": "^2.9.1",
