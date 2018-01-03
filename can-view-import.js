@@ -64,12 +64,12 @@ function processImport(el, tagData) {
 	}
 	// Render the subtemplate and register nodeLists
 	else {
-		var frag = tagData.subtemplate ?
-			tagData.subtemplate(scope, tagData.options) :
-			DOCUMENT().createDocumentFragment();
-
-		var nodeList = nodeLists.register([], undefined, tagData.parentNodeList || true);
+		var nodeList = nodeLists.register([], undefined, tagData.parentNodeList || true, false);
 		nodeList.expression = "<" + this.tagName + ">";
+
+		var frag = tagData.subtemplate ?
+			tagData.subtemplate(scope, tagData.options, nodeList) :
+			DOCUMENT().createDocumentFragment();
 
 		var removalDisposal = domMutate.onNodeRemoval(el, function () {
 			if (!el.ownerDocument.contains(el)) {

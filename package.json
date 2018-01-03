@@ -40,6 +40,8 @@
   "devDependencies": {
     "bit-docs": "0.0.7",
     "can-component": "^4.0.0-pre.25",
+    "can-observation": "4.0.0-pre.25",
+    "can-queues": "^0.5.0",
     "can-simple-map": "^4.0.0-pre.13",
     "can-simple-observable": "^2.0.0-pre.23",
     "can-stache": "^4.0.0-pre.48",

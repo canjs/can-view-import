@@ -1,12 +1,13 @@
 var SimpleMap = require('can-simple-map');
-//var Component = require('can-component');
 var stache = require('can-stache');
 var getIntermediateAndImports = require('can-stache/src/intermediate_and_imports');
+var Observation = require("can-observation");
 var QUnit = require('steal-qunit');
 var importer = require('can-util/js/import/import');
 var tag = require('can-view-callbacks').tag;
 var testHelpers = require('can-test-helpers');
 var SimpleObservable = require("can-simple-observable");
+var queues = require("can-queues");
 
 require('./can-view-import');
 
@@ -90,6 +91,42 @@ if(window.steal) {
 		template();
 		finishWarningCheck();
 	});
+
+	if (!System.isEnv('production')) {
+		asyncTest("nodeLists are properly handed down", function(){
+			expect(1);
+
+			var templateString = "{{#if(map.render)}}<can-import from='can-view-import/test/hello'>" +
+				"{{#if isResolved}}{{#with scope.root}}{{#if(map.show)}}{{foo}}{{/if}}" +
+				"{{/with}}{{/if}}</can-import>{{/if}}";
+			var iai = getIntermediateAndImports(templateString);
+			var template = stache(iai.intermediate);
+			var map = new SimpleMap({
+				render: true,
+				show: true,
+				bar: "bar"
+			});
+			var count = 0;
+			var foo = new Observation(function(){
+				count++;
+				equal(count, 1, "This was called too many times");
+				return map.get("bar");
+			});
+
+			template({ foo, map });
+
+			importer("can-view-import/test/hello").then(function(){
+				// Get around temporary bind stuff
+				setTimeout(function(){
+					queues.batch.start();
+					map.set("show", false);
+					map.set("bar", undefined);
+					queues.batch.stop();
+					start();
+				}, 100);;
+			});
+		});
+	}
 
 	if (!System.isEnv('production')) {
 		asyncTest("can use an import's value", function(){
