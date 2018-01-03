@@ -113,7 +113,7 @@ if(window.steal) {
 				return map.get("bar");
 			});
 
-			template({ foo, map });
+			template({ foo: foo, map: map });
 
 			importer("can-view-import/test/hello").then(function(){
 				// Get around temporary bind stuff
@@ -123,7 +123,7 @@ if(window.steal) {
 					map.set("bar", undefined);
 					queues.batch.stop();
 					start();
-				}, 100);;
+				}, 100);
 			});
 		});
 	}
