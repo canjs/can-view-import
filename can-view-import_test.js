@@ -1,13 +1,11 @@
 var SimpleMap = require('can-simple-map');
 var stache = require('can-stache');
 var getIntermediateAndImports = require('can-stache/src/intermediate_and_imports');
-var Observation = require("can-observation");
 var QUnit = require('steal-qunit');
 var importer = require('can-util/js/import/import');
 var tag = require('can-view-callbacks').tag;
 var testHelpers = require('can-test-helpers');
 var SimpleObservable = require("can-simple-observable");
-var queues = require("can-queues");
 
 require('./can-view-import');
 
