@@ -1,12 +1,11 @@
-var CanMap = require('can-map');
-var Component = require('can-component');
+var SimpleMap = require('can-simple-map');
 var stache = require('can-stache');
-var compute = require('can-compute');
 var getIntermediateAndImports = require('can-stache/src/intermediate_and_imports');
 var QUnit = require('steal-qunit');
 var importer = require('can-util/js/import/import');
 var tag = require('can-view-callbacks').tag;
 var testHelpers = require('can-test-helpers');
+var SimpleObservable = require("can-simple-observable");
 
 require('./can-view-import');
 
@@ -38,11 +37,11 @@ if(window.steal) {
 			"{{#eq state 'resolved'}}<hello-world></hello-world>{{/eq}}</can-import>{{/if a}}");
 			var template = stache(iai.intermediate);
 
-			var a = compute(false);
+			var a = new SimpleObservable(false);
 			var res = template({ a: a });
 
 			equal(res.childNodes[0].childNodes.length, 0, "There are no child nodes immediately");
-			a(true);
+			a.set(true);
 
 			importer("can-view-import/test/hello").then(function(){
 				equal(res.childNodes[0].childNodes.length, 1, "There is now a nested component");
@@ -92,13 +91,49 @@ if(window.steal) {
 	});
 
 	if (!System.isEnv('production')) {
+		/*asyncTest("nodeLists are properly handed down", function(){
+			expect(1);
+
+			var templateString = "{{#if(map.render)}}<can-import from='can-view-import/test/hello'>" +
+				"{{#if isResolved}}{{#with scope.root}}{{#if(map.show)}}{{foo}}{{/if}}" +
+				"{{/with}}{{/if}}</can-import>{{/if}}";
+			var iai = getIntermediateAndImports(templateString);
+			var template = stache(iai.intermediate);
+			var map = new SimpleMap({
+				render: true,
+				show: true,
+				bar: "bar"
+			});
+			var count = 0;
+			var foo = new Observation(function(){
+				count++;
+				equal(count, 1, "This was called too many times");
+				return map.get("bar");
+			});
+
+			template({ foo: foo, map: map });
+
+			importer("can-view-import/test/hello").then(function(){
+				// Get around temporary bind stuff
+				setTimeout(function(){
+					queues.batch.start();
+					map.set("show", false);
+					map.set("bar", undefined);
+					queues.batch.stop();
+					start();
+				}, 100);
+			});
+		});*/
+	}
+
+	if (!System.isEnv('production')) {
 		asyncTest("can use an import's value", function(){
 			var template = "<can-import from='can-view-import/test/person' @value:to='*person' />hello {{*person.name}}";
 
 			var iai = getIntermediateAndImports(template);
 
 			var renderer = stache(iai.intermediate);
-			var res = renderer(new CanMap());
+			var res = renderer(new SimpleMap());
 
 			importer("can-view-import/test/person").then(function(){
 				equal(res.childNodes[2].nodeValue, "world", "Got the person.name from the import");
@@ -106,7 +141,7 @@ if(window.steal) {
 			});
 		});
 	}
-
+	/*
 	if (!System.isEnv('production')) {
 		asyncTest("can import a template and use it", function(){
 			var template = "<can-import from='can-view-import/test/other.stache!' @value:to='*other' />{{{*other()}}}";
@@ -160,7 +195,7 @@ if(window.steal) {
 			});
 
 			stache.async(template).then(function(renderer){
-				var frag = renderer(new CanMap());
+				var frag = renderer(new SimpleMap());
 
 				finishWarningCheck();
 
@@ -238,4 +273,5 @@ if(window.steal) {
 			});
 		});
 	}
+	*/
 }

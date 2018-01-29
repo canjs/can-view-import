@@ -1,22 +1,27 @@
 var assign = require('can-assign');
 var canData = require('can-dom-data-state');
+var canSymbol = require('can-symbol');
 var DOCUMENT = require("can-globals/document/document");
 var getChildNodes = require('can-util/dom/child-nodes/child-nodes');
 var importer = require('can-util/js/import/import');
-var mutate = require("can-util/dom/mutate/mutate");
+var domMutate = require('can-dom-mutate');
+var domMutateNode = require("can-dom-mutate/node");
 var nodeLists = require('can-view-nodelist');
 var viewCallbacks = require('can-view-callbacks');
 var tag = viewCallbacks.tag;
-var events = require('can-event');
 var canLog = require("can-log/");
 var dev = require("can-log/dev/dev");
+
+function setViewModel (element, viewModel) {
+	element[canSymbol.for('can.viewModel')] = viewModel;
+}
 
 function processImport(el, tagData) {
 
 	var moduleName = el.getAttribute("from");
 	// If the module is part of the helpers pass that into can.import
 	// as the parentName
-	var templateModule = tagData.options.get("helpers.module");
+	var templateModule = tagData.scope.get("scope.helpers.module");
 	var parentName = templateModule ? templateModule.id : undefined;
 
 	if(!moduleName) {
@@ -29,7 +34,7 @@ function processImport(el, tagData) {
 	});
 
 	// Set the viewModel to the promise
-	canData.set.call(el, "viewModel", importPromise);
+	setViewModel(el, importPromise);
 	canData.set.call(el, "scope", importPromise);
 
 	// Set the scope
@@ -53,24 +58,27 @@ function processImport(el, tagData) {
 			}));
 			canData.set.call(el, "preventDataBindings", false);
 
-			canData.set.call(el, "viewModel", importPromise);
+			setViewModel(el, importPromise);
 			canData.set.call(el, "scope", importPromise);
 		}
 	}
 	// Render the subtemplate and register nodeLists
 	else {
-		var frag = tagData.subtemplate ?
-			tagData.subtemplate(scope, tagData.options) :
-			DOCUMENT().createDocumentFragment();
-
-		var nodeList = nodeLists.register([], undefined, tagData.parentNodeList || true);
+		var nodeList = nodeLists.register([], undefined, tagData.parentNodeList || true, false);
 		nodeList.expression = "<" + this.tagName + ">";
 
-		events.one.call(el, "removed", function(){
-			nodeLists.unregister(nodeList);
+		var frag = tagData.subtemplate ?
+			tagData.subtemplate(scope, tagData.options, nodeList) :
+			DOCUMENT().createDocumentFragment();
+
+		var removalDisposal = domMutate.onNodeRemoval(el, function () {
+			if (!el.ownerDocument.contains(el)) {
+				removalDisposal();
+				nodeLists.unregister(nodeList);
+			}
 		});
 
-		mutate.appendChild.call(el, frag);
+		domMutateNode.appendChild.call(el, frag);
 		nodeLists.update(nodeList, getChildNodes(el));
 	}
 }
