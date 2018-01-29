@@ -28,7 +28,7 @@
   "keywords": [],
   "dependencies": {
     "can-assign": "^1.0.0",
-    "can-dom-data-state": "^2.0.0",
+    "can-dom-data-state": "<2.0.0",
     "can-dom-mutate": "<2.0.0",
     "can-globals": "<2.0.0",
     "can-symbol": "^1.5.0",
