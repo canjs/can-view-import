@@ -266,7 +266,7 @@ if(window.steal) {
 			var error = console.error;
 			console.error = function(type){
 				console.error = error;
-				QUnit.ok(/ERROR/.test(type), "Logged an error that originated from the dynamically imported module");
+				QUnit.ok(/ERROR/i.test(type), "Logged an error that originated from the dynamically imported module");
 				QUnit.start();
 			};
 
