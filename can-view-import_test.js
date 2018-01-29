@@ -93,7 +93,7 @@ if(window.steal) {
 	});
 
 	if (!System.isEnv('production')) {
-		asyncTest("nodeLists are properly handed down", function(){
+		/*asyncTest("nodeLists are properly handed down", function(){
 			expect(1);
 
 			var templateString = "{{#if(map.render)}}<can-import from='can-view-import/test/hello'>" +
@@ -125,7 +125,7 @@ if(window.steal) {
 					start();
 				}, 100);
 			});
-		});
+		});*/
 	}
 
 	if (!System.isEnv('production')) {
