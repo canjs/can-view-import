@@ -7,7 +7,7 @@
 
 Passes MODULE_NAME to [can-util/js/import/import] and sets the [can-view-import <can-import>]'s viewModel to be the returned Promise.
 
-```js
+```javascript
 <can-import from="bootstrap/bootstrap.css" />
 ```
 
