@@ -30,7 +30,7 @@
     "can-assign": "^1.0.0",
     "can-dom-data-state": "^1.0.0",
     "can-dom-mutate": "<2.0.0",
-    "can-globals": "<2.0.0",
+    "can-globals": "1.1.1",
     "can-symbol": "^1.5.0",
     "can-log": "^1.0.0",
     "can-util": "^3.9.5",
