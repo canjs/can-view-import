@@ -1,3 +1,4 @@
+"use strict";
 var assign = require('can-assign');
 var canData = require('can-dom-data-state');
 var canSymbol = require('can-symbol');
