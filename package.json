@@ -52,7 +52,7 @@
     "steal": "^1.2.0",
     "steal-qunit": "^1.0.0",
     "steal-stache": "^4.0.0",
-    "steal-tools": "^1.0.0",
+    "steal-tools": "^2.0.0",
     "testee": "^0.8.0"
   }
 }
