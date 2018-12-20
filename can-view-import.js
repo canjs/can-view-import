@@ -73,7 +73,9 @@ function processImport(el, tagData) {
 			DOCUMENT().createDocumentFragment();
 
 		var removalDisposal = domMutate.onNodeRemoval(el, function () {
-			if (!el.ownerDocument.contains(el)) {
+			var doc = el.ownerDocument;
+			var ownerNode = doc.contains ? doc : doc.documentElement;
+			if (!ownerNode || ownerNode.contains(el) === false) {
 				removalDisposal();
 				nodeLists.unregister(nodeList);
 			}

@@ -6,6 +6,7 @@ var importer = require('can-import-module');
 var tag = require('can-view-callbacks').tag;
 var testHelpers = require('can-test-helpers');
 var SimpleObservable = require("can-simple-observable");
+var DOCUMENT = require("can-globals/document/document");
 
 require('./can-view-import');
 
@@ -274,4 +275,24 @@ if(window.steal) {
 		});
 	}
 	*/
+
+	if (!System.isEnv('production')) {
+		asyncTest("cleaned up correctly when element is removed", function(){
+			var doc = DOCUMENT();
+			var fixture = doc.getElementById("qunit-fixture");
+			var template = "<can-import from='can-view-import/test/person' />";
+			var iai = getIntermediateAndImports(template);
+			var renderer = stache(iai.intermediate);
+			var res = renderer(new SimpleMap());
+			fixture.appendChild(res);
+
+			importer("can-view-import/test/person").then(function(){
+				var el = fixture.querySelector("can-import");
+				fixture.removeChild(el);
+				// testing that removalDisposal does not throw
+				QUnit.ok(true);
+				start();
+			});
+		});
+	}
 }
