@@ -1,6 +1,6 @@
 "use strict";
 var assign = require('can-assign');
-var canData = require('can-dom-data-state');
+var canData = require('can-dom-data');
 var canSymbol = require('can-symbol');
 var DOCUMENT = require("can-globals/document/document");
 var getChildNodes = require('can-child-nodes');
@@ -36,7 +36,7 @@ function processImport(el, tagData) {
 
 	// Set the viewModel to the promise
 	setViewModel(el, importPromise);
-	canData.set.call(el, "scope", importPromise);
+	canData.set(el, "scope", importPromise);
 
 	// Set the scope
 	var scope = tagData.scope.add(importPromise, { notContext: true });
@@ -53,14 +53,14 @@ function processImport(el, tagData) {
 			dev.error(new Error("The tag '" + handOffTag + "' has not been properly registered."));
 			//!steal-remove-end
 		} else {
-			canData.set.call(el, "preventDataBindings", true);
+			canData.set(el, "preventDataBindings", true);
 			callback(el, assign(tagData, {
 				scope: scope
 			}));
-			canData.set.call(el, "preventDataBindings", false);
+			canData.set(el, "preventDataBindings", false);
 
 			setViewModel(el, importPromise);
-			canData.set.call(el, "scope", importPromise);
+			canData.set(el, "scope", importPromise);
 		}
 	}
 	// Render the subtemplate and register nodeLists
