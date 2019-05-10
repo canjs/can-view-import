@@ -14,46 +14,47 @@ if(window.steal) {
 	QUnit.module("can/view/import");
 
 	var test = QUnit.test;
-	var equal = QUnit.equal;
+	var equal = assert.equal;
 
-	test("static imports are imported", function(){
+	QUnit.test("static imports are imported", function(assert) {
 		var iai = getIntermediateAndImports("<can-import from='can-view-import/test/hello'/>" +
 		"<hello-world></hello-world>");
 
-		equal(iai.imports.length, 1, "There is one import");
+		assert.equal(iai.imports.length, 1, "There is one import");
 	});
 
-	test("dynamic imports are not imported", function(){
+	QUnit.test("dynamic imports are not imported", function(assert) {
 		var iai = getIntermediateAndImports("{{#if a}}<can-import from='can-view-import/test/hello'>" +
 		"<hello-world></hello-world></can-import>{{/if a}}");
 
-		equal(iai.imports.length, 0, "There are no imports");
+		assert.equal(iai.imports.length, 0, "There are no imports");
 	});
 
 	if (!System.isEnv('production')) {
-		asyncTest("dynamic imports will only load when in scope", function(){
-			expect(4);
+		QUnit.test("dynamic imports will only load when in scope", function(assert) {
+            var ready = assert.async();
+            assert.expect(4);
 
-			var iai = getIntermediateAndImports("{{#if a}}<can-import from='can-view-import/test/hello'>" +
+            var iai = getIntermediateAndImports("{{#if a}}<can-import from='can-view-import/test/hello'>" +
 			"{{#eq state 'resolved'}}<hello-world></hello-world>{{/eq}}</can-import>{{/if a}}");
-			var template = stache(iai.intermediate);
+            var template = stache(iai.intermediate);
 
-			var a = new SimpleObservable(false);
-			var res = template({ a: a });
+            var a = new SimpleObservable(false);
+            var res = template({ a: a });
 
-			equal(res.childNodes[0].childNodes.length, 0, "There are no child nodes immediately");
-			a.set(true);
+            assert.equal(res.childNodes[0].childNodes.length, 0, "There are no child nodes immediately");
+            a.set(true);
 
-			importer("can-view-import/test/hello").then(function(){
-				equal(res.childNodes[0].childNodes.length, 1, "There is now a nested component");
-				equal(res.childNodes[0].childNodes[0].tagName.toUpperCase(), "HELLO-WORLD", "imported the tag");
-				equal(res.childNodes[0].childNodes[0].childNodes[0].nodeValue, "Hello world!", "text inserted");
-				start();
+            importer("can-view-import/test/hello").then(function(){
+				assert.equal(res.childNodes[0].childNodes.length, 1, "There is now a nested component");
+				assert.equal(res.childNodes[0].childNodes[0].tagName.toUpperCase(), "HELLO-WORLD", "imported the tag");
+				assert.equal(res.childNodes[0].childNodes[0].childNodes[0].nodeValue, "Hello world!", "text inserted");
+				ready();
 			});
-		});
+        });
 	}
 
-	test("if a can-tag is present, handed over rendering to that tag", function(){
+	QUnit.test("if a can-tag is present, handed over rendering to that tag", function(assert) {
 		var iai = getIntermediateAndImports("<can-import from='can-view-import/test/hello' can-tag='loading'/>");
 		tag("loading", function(el){
 			var template = stache("it worked");
@@ -62,29 +63,29 @@ if(window.steal) {
 		var template = stache(iai.intermediate);
 
 		var res = template();
-		equal(res.childNodes[0].childNodes[0].nodeValue, "it worked", "Rendered with the can-tag");
+		assert.equal(res.childNodes[0].childNodes[0].nodeValue, "it worked", "Rendered with the can-tag");
 	});
 
 	// Issue #2 "can-import can-tag fails silently when tag does not exist"
 	//  https://github.com/canjs/can-view-import/issues/2
-	testHelpers.dev.devOnlyTest("if a can-tag is present, but not registered, should throw error (#2)", function(){
+	testHelpers.dev.devOnlyTest("if a can-tag is present, but not registered, should throw error (#2)", function (assert){
 		var iai = getIntermediateAndImports("<can-import from='can-view-import/test/hello' can-tag='not-exist'/>");
 		var template = stache(iai.intermediate);
 		var finishWarningCheck = testHelpers.dev.willError("The tag 'not-exist' has not been properly registered.", function(message, matched) {
 			if(matched) {
-				ok(true, "Error message properly sent");
+				assert.ok(true, "Error message properly sent");
 			}
 		});
 		template();
 		finishWarningCheck();
 	});
 
-	testHelpers.dev.devOnlyTest("if a can-tag is present, but not registered, should throw error (#2)", function(){
+	testHelpers.dev.devOnlyTest("if a can-tag is present, but not registered, should throw error (#2)", function (assert){
 		var iai = getIntermediateAndImports("<can-import from='can-view-import/test/hello' can-tag='notexist'/>");
 		var template = stache(iai.intermediate);
 		var finishWarningCheck = testHelpers.dev.willError("The tag 'notexist' has not been properly registered.", function(message, matched) {
 			if(matched) {
-				ok(true, "Error message properly sent");
+				assert.ok(true, "Error message properly sent");
 			}
 		});
 		template();
@@ -121,26 +122,27 @@ if(window.steal) {
 					map.set("show", false);
 					map.set("bar", undefined);
 					queues.batch.stop();
-					start();
+					done();
 				}, 100);
 			});
 		});*/
 	}
 
 	if (!System.isEnv('production')) {
-		asyncTest("can use an import's value", function(){
-			var template = "<can-import from='can-view-import/test/person' @value:to='*person' />hello {{*person.name}}";
+		QUnit.test("can use an import's value", function(assert) {
+            var ready = assert.async();
+            var template = "<can-import from='can-view-import/test/person' @value:to='*person' />hello {{*person.name}}";
 
-			var iai = getIntermediateAndImports(template);
+            var iai = getIntermediateAndImports(template);
 
-			var renderer = stache(iai.intermediate);
-			var res = renderer(new SimpleMap());
+            var renderer = stache(iai.intermediate);
+            var res = renderer(new SimpleMap());
 
-			importer("can-view-import/test/person").then(function(){
-				equal(res.childNodes[2].nodeValue, "world", "Got the person.name from the import");
-				start();
+            importer("can-view-import/test/person").then(function(){
+				assert.equal(res.childNodes[2].nodeValue, "world", "Got the person.name from the import");
+				ready();
 			});
-		});
+        });
 	}
 	/*
 	if (!System.isEnv('production')) {
@@ -154,7 +156,7 @@ if(window.steal) {
 				importer("can-view-import/test/other.stache!").then(function(){
 					equal(frag.childNodes[3].firstChild.nodeValue, "hi there", "Partial was renderered right after the can-import");
 
-					QUnit.start();
+					done();
 				});
 			});
 		});
@@ -171,7 +173,7 @@ if(window.steal) {
 				importer("can-view-import/test/other.stache!").then(function(){
 					equal(frag.childNodes[3].firstChild.nodeValue, "hi there", "Partial was renderered right after the can-import");
 
-					QUnit.start();
+					done();
 				});
 			});
 		});
@@ -192,7 +194,7 @@ if(window.steal) {
 			var template = "<can-import from='can-view-import/test/other.stache' @value:to='*other' can-tag='my-waiter'>{{{*other()}}}</can-import>";
 
 			var finishWarningCheck = testHelpers.dev.willWarn(/is not in the current scope/, function(message, matched) {
-				QUnit.notOk(matched, "importPromise throws a false-positive warning (#83)");
+				assert.notOk(matched, "importPromise throws a false-positive warning (#83)");
 			});
 
 			stache.async(template).then(function(renderer){
@@ -204,7 +206,7 @@ if(window.steal) {
 					ok(frag.childNodes[0].childNodes.length > 1, "Something besides a text node is inserted");
 					equal(frag.childNodes[0].childNodes[2].firstChild.nodeValue, "hi there", "Partial worked with can-tag");
 
-					QUnit.start();
+					done();
 				});
 			});
 		});
@@ -221,7 +223,7 @@ if(window.steal) {
 				importer("can-view-import/test/other.stache!").then(function(){
 					equal(frag.childNodes[3].firstChild.nodeValue, "hi there", "Partial was renderered right after the can-import");
 
-					QUnit.start();
+					done();
 				});
 			});
 
@@ -236,7 +238,7 @@ if(window.steal) {
 				importer("can-view-import/test/other.stache!").then(function(){
 					equal(frag.childNodes[3].firstChild.nodeValue, "hi there", "Partial was renderered right after the can-import");
 
-					QUnit.start();
+					done();
 				});
 			});
 
@@ -251,7 +253,7 @@ if(window.steal) {
 				importer("can-view-import/test/other.stache!").then(function(){
 					equal(frag.childNodes[3].firstChild.nodeValue, "hi there", "Partial was renderered right after the can-import");
 
-					QUnit.start();
+					done();
 				});
 			});
 
@@ -265,8 +267,8 @@ if(window.steal) {
 			var error = console.error;
 			console.error = function(type){
 				console.error = error;
-				QUnit.ok(/ERROR/i.test(type), "Logged an error that originated from the dynamically imported module");
-				QUnit.start();
+				assert.ok(/ERROR/i.test(type), "Logged an error that originated from the dynamically imported module");
+				done();
 			};
 
 			stache.async(template).then(function(renderer){
@@ -277,22 +279,23 @@ if(window.steal) {
 	*/
 
 	if (!System.isEnv('production')) {
-		asyncTest("cleaned up correctly when element is removed", function(){
-			var doc = DOCUMENT();
-			var fixture = doc.getElementById("qunit-fixture");
-			var template = "<can-import from='can-view-import/test/person' />";
-			var iai = getIntermediateAndImports(template);
-			var renderer = stache(iai.intermediate);
-			var res = renderer(new SimpleMap());
-			fixture.appendChild(res);
+		QUnit.test("cleaned up correctly when element is removed", function(assert) {
+            var ready = assert.async();
+            var doc = DOCUMENT();
+            var fixture = doc.getElementById("qunit-fixture");
+            var template = "<can-import from='can-view-import/test/person' />";
+            var iai = getIntermediateAndImports(template);
+            var renderer = stache(iai.intermediate);
+            var res = renderer(new SimpleMap());
+            fixture.appendChild(res);
 
-			importer("can-view-import/test/person").then(function(){
+            importer("can-view-import/test/person").then(function(){
 				var el = fixture.querySelector("can-import");
 				fixture.removeChild(el);
 				// testing that removalDisposal does not throw
-				QUnit.ok(true);
-				start();
+				assert.ok(true);
+				ready();
 			});
-		});
+        });
 	}
 }
