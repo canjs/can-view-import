@@ -34,6 +34,13 @@ function processImport(el, tagData) {
 		canLog.error(err);
 	});
 
+	// if this template was loaded by steal-stache, the module imported by this tag should already be loaded
+	// we can provide it immediately by adding the `export` property to the tag viewModel
+	var tagImportMap = tagData.scope.get("scope.helpers.tagImportMap");
+	if (tagImportMap[moduleName]) {
+		importPromise.export = tagImportMap[moduleName];
+	}
+
 	// Set the viewModel to the promise
 	setViewModel(el, importPromise);
 	canData.set(el, "scope", importPromise);
