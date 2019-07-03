@@ -37,7 +37,7 @@ function processImport(el, tagData) {
 	// if this template was loaded by steal-stache, the module imported by this tag should already be loaded
 	// we can provide it immediately by adding the `export` property to the tag viewModel
 	var tagImportMap = tagData.scope.get("scope.helpers.tagImportMap");
-	if (tagImportMap[moduleName]) {
+	if (tagImportMap && tagImportMap[moduleName]) {
 		importPromise.export = tagImportMap[moduleName];
 	}
 
