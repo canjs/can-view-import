@@ -1,6 +1,6 @@
 {
   "name": "can-view-import",
-  "version": "4.2.2",
+  "version": "5.0.0-pre.0",
   "description": "Import dependencies in CanJS views",
   "homepage": "https://canjs.com/doc/can-view-import.html",
   "repository": {
@@ -29,30 +29,27 @@
   "dependencies": {
     "can-assign": "^1.0.0",
     "can-dom-data": "^1.0.1",
-    "can-dom-mutate": "<2.0.0",
+    "can-dom-mutate": "^2.0.0",
     "can-globals": "<2.0.0",
     "can-symbol": "^1.5.0",
     "can-log": "^1.0.0",
-    "can-view-callbacks": "^4.0.0",
-    "can-view-nodelist": "^4.0.0",
+    "can-view-callbacks": "canjs/can-view-callbacks#major",
     "can-import-module": "^1.0.0",
     "can-child-nodes": "^1.0.0"
   },
   "devDependencies": {
-    "bit-docs": "0.0.7",
-    "can-component": "^4.0.0",
-    "can-observation": "^4.0.0",
-    "can-queues": "<2.0.0",
+    "can-component": "canjs/can-component#major",
+    "can-observation": "canjs/can-observation#dom-queue",
+    "can-queues": "canjs/can-queues#dom-queue",
     "can-simple-map": "^4.0.0",
     "can-simple-observable": "^2.0.0",
-    "can-stache": "^4.0.0",
+    "can-stache": "canjs/can-stache#major",
     "can-test-helpers": "^1.0.1",
     "detect-cyclic-packages": "^1.1.0",
     "jshint": "^2.9.1",
     "steal": "^1.2.0",
     "steal-qunit": "^1.0.0",
-    "steal-stache": "^4.0.0",
-    "steal-tools": "^1.0.0",
+    "steal-stache": "canjs/steal-stache#major",
     "testee": "^0.9.0"
   }
 }
