@@ -64,7 +64,7 @@ function processImport(el, tagData) {
 	else {
 
 		var frag = tagData.subtemplate ?
-			tagData.subtemplate(scope, tagData.options, nodeList) :
+			tagData.subtemplate(scope, tagData.options ) :
 			DOCUMENT().createDocumentFragment();
 
 
