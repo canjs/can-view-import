@@ -38,7 +38,20 @@ function processImport(el, tagData) {
 	// we can provide it immediately by adding the `export` property to the tag viewModel
 	var tagImportMap = tagData.scope.get("tagImportMap");
 	if (tagImportMap && tagImportMap[moduleName]) {
-		importPromise.export = tagImportMap[moduleName];
+		importPromise.module = tagImportMap[moduleName];
+
+		// if the module binding is bound directly to a non-nested, undefined variable name, add it to the let context
+		var moduleBinding = el.getAttribute('module:to');
+		if (moduleBinding && moduleBinding.indexOf('.') === -1 && !tagData.scope.find(moduleBinding)) {
+			// add null variable in let context that will be populated by binding
+			// causes binding to be made to let context rather defaulting bind to VM
+			var letContext = tagData.scope.getScope(function(scope) {
+				return scope._meta.variable;
+			});
+			if (letContext) {
+				tagData.scope._context[moduleBinding] = null;
+			}
+		}
 	}
 
 	// Set the viewModel to the promise
