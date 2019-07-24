@@ -40,18 +40,18 @@ function processImport(el, tagData) {
 	if (tagImportMap && tagImportMap[moduleName]) {
 		importPromise.module = tagImportMap[moduleName];
 
-		// if the module binding is bound directly to a non-nested, undefined variable name, add it to the let context
-		var moduleBinding = el.getAttribute('module:to');
-		if (moduleBinding && moduleBinding.indexOf('.') === -1 && !tagData.scope.find(moduleBinding)) {
-			// add null variable in let context that will be populated by binding
-			// causes binding to be made to let context rather defaulting bind to VM
-			var letContext = tagData.scope.getScope(function(scope) {
-				return scope._meta.variable;
-			});
-			if (letContext) {
-				tagData.scope._context[moduleBinding] = null;
-			}
-		}
+		// if a module binding is bound directly to a non-nested, undefined variable name, add it to the let context
+		var moduleBindings = Array.prototype.filter.call(el.attributes, function(attr) {
+			return /module(.*):to/.test(attr.name) && attr.value.indexOf('.') === -1 && !tagData.scope.find(attr.value);
+		});
+		var letContext = tagData.scope.getScope(function(scope) {
+			return scope._meta.variable;
+		});
+		moduleBindings.forEach(function(attr) {
+			// add null variable in closest let context. null var will be populated by binding.
+			// causes binding to be made to let context rather defaulting bind to VM.
+			letContext._context[attr.value] = null;
+		});
 	}
 
 	// Set the viewModel to the promise
