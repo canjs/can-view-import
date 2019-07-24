@@ -16,6 +16,30 @@ Statically import a module from within a [can-stache] template. *MODULE_NAME* wi
 
 @param {moduleName} [MODULE_NAME] A module that this template depends on.
 
+@signature `<can-import from="MODULE_NAME" module.default:to="VAR_NAME" />`
+
+Statically import a module from within a [can-stache] template. *MODULE_NAME* will be imported before the template renders. *VAR_NAME* will be set during initial template rendering.
+
+```
+<can-import from="app/helpers/properCase" module.properCase:to="properCase" />
+{{properCase(person.name)}}
+```
+
+@param {moduleName} [MODULE_NAME] A module that this template depends on.
+@param {varName} [VAR_NAME] A scope variable name that the loaded module will be set to.
+
+@signature `<can-import from="MODULE_NAME">content</can-import>`
+
+Dynamically import *MODULE_NAME* if *content* is anything other than whitespace; the scope within the template is a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+
+```
+<can-import from="components/tabs">
+  {{#if isResolved}}
+    <tabs-widget />
+  {{/if}}
+</can-import>
+```
+
 @signature `<can-import from="MODULE_NAME">content</can-import>`
 
 Dynamically import *MODULE_NAME* if *content* is anything other than whitespace; the scope within the template is a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
