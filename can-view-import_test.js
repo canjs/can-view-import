@@ -7,6 +7,7 @@ var tag = require('can-view-callbacks').tag;
 var testHelpers = require('can-test-helpers');
 var SimpleObservable = require("can-simple-observable");
 var DOCUMENT = require("can-globals/document/document");
+var person = require('test/person');
 
 require('./can-view-import');
 
@@ -63,6 +64,20 @@ if(window.steal) {
 
 		var res = template();
 		equal(res.childNodes[0].childNodes[0].nodeValue, "it worked", "Rendered with the can-tag");
+	});
+
+	asyncTest("if a tagImportMap is in scope, module property is available", function(){
+		var iai = getIntermediateAndImports("<can-import from='can-view-import/test/person' module:to='person'/>{{test(person.name)}}");
+		var template = stache(iai.intermediate);
+		template({
+			tagImportMap: {
+				'can-view-import/test/person': person
+			},
+			test: function(name) {
+				equal(name, person.name, 'person was available via module binding');
+				start();
+			}
+		});
 	});
 
 	// Issue #2 "can-import can-tag fails silently when tag does not exist"
