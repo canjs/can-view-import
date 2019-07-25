@@ -5,7 +5,7 @@
 
 @signature `module:to="NAME"`
 
-Sets up a [can-stache-bindings.toParent] binding to `NAME` in the block-level scope. Unlike [can-view-import.value value] this attribute isn't set by a Promise, so it's set immediately at initial template render, rather than being momentarily undefined.
+Sets up a [can-stache-bindings.toParent] binding to `NAME` in the block-level scope. Unlike [can-view-import.value value] this attribute isn't set by a Promise, so it's immediately available at initial template render, rather than being momentarily undefined.
 
 @param {String} NAME The variable name to assign to in the [can-stache.helpers.let block-level scope]. This can be any string name you want to use, but it must not already be defined in the scope, or it will overwrite that existing value.
 
