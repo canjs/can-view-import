@@ -5,9 +5,7 @@ var canSymbol = require('can-symbol');
 var DOCUMENT = require("can-globals/document/document");
 var getChildNodes = require('can-child-nodes');
 var importer = require('can-import-module');
-var domMutate = require('can-dom-mutate');
 var domMutateNode = require("can-dom-mutate/node");
-var nodeLists = require('can-view-nodelist');
 var viewCallbacks = require('can-view-callbacks');
 var tag = viewCallbacks.tag;
 var canLog = require("can-log/");
@@ -83,26 +81,14 @@ function processImport(el, tagData) {
 			canData.set(el, "scope", importPromise);
 		}
 	}
-	// Render the subtemplate and register nodeLists
 	else {
-		var nodeList = nodeLists.register([], undefined, tagData.parentNodeList || true, false);
-		nodeList.expression = "<" + this.tagName + ">";
 
 		var frag = tagData.subtemplate ?
-			tagData.subtemplate(scope, tagData.options, nodeList) :
+			tagData.subtemplate(scope, tagData.options ) :
 			DOCUMENT().createDocumentFragment();
 
-		var removalDisposal = domMutate.onNodeRemoval(el, function () {
-			var doc = el.ownerDocument;
-			var ownerNode = doc.contains ? doc : doc.documentElement;
-			if (!ownerNode || ownerNode.contains(el) === false) {
-				removalDisposal();
-				nodeLists.unregister(nodeList);
-			}
-		});
 
 		domMutateNode.appendChild.call(el, frag);
-		nodeLists.update(nodeList, getChildNodes(el));
 	}
 }
 
