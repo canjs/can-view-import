@@ -8,6 +8,7 @@ var testHelpers = require('can-test-helpers');
 var SimpleObservable = require("can-simple-observable");
 var DOCUMENT = require("can-globals/document/document");
 var person = require('test/person');
+require('can-stache-bindings');
 
 require('./can-view-import');
 
@@ -74,7 +75,7 @@ if(window.steal) {
 				'can-view-import/test/person': person
 			},
 			test: function(name) {
-				equal(name, person.name, 'person was available via module binding');
+				equal(name, person.attr('name'), 'person was available via module binding');
 				start();
 			}
 		});
