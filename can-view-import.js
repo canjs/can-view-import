@@ -3,7 +3,6 @@ var assign = require('can-assign');
 var canData = require('can-dom-data');
 var canSymbol = require('can-symbol');
 var DOCUMENT = require("can-globals/document/document");
-var getChildNodes = require('can-child-nodes');
 var importer = require('can-import-module');
 var domMutateNode = require("can-dom-mutate/node");
 var viewCallbacks = require('can-view-callbacks');
