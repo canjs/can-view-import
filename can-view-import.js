@@ -3,7 +3,6 @@ var assign = require('can-assign');
 var canData = require('can-dom-data');
 var canSymbol = require('can-symbol');
 var DOCUMENT = require("can-globals/document/document");
-var getChildNodes = require('can-child-nodes');
 var importer = require('can-import-module');
 var domMutateNode = require("can-dom-mutate/node");
 var viewCallbacks = require('can-view-callbacks');
@@ -31,6 +30,26 @@ function processImport(el, tagData) {
 	importPromise.catch(function(err) {
 		canLog.error(err);
 	});
+
+	// if this template was loaded by steal-stache, the module imported by this tag should already be loaded
+	// we can provide it immediately by adding the `module` property to the tag viewModel
+	var tagImportMap = tagData.scope.get("tagImportMap");
+	if (tagImportMap && tagImportMap[moduleName]) {
+		importPromise.module = tagImportMap[moduleName];
+
+		// if a module binding is bound directly to a non-nested, undefined variable name, add it to the let context
+		var moduleBindings = Array.prototype.filter.call(el.attributes, function(attr) {
+			return /module(.*):to/.test(attr.name) && attr.value.indexOf('.') === -1 && !tagData.scope.find(attr.value);
+		});
+		var letContext = tagData.scope.getScope(function(scope) {
+			return scope._meta.variable;
+		});
+		moduleBindings.forEach(function(attr) {
+			// add null variable in closest let context. null var will be populated by binding.
+			// causes binding to be made to let context rather defaulting bind to VM.
+			letContext._context[attr.value] = null;
+		});
+	}
 
 	// Set the viewModel to the promise
 	setViewModel(el, importPromise);
