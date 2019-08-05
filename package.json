@@ -39,8 +39,8 @@
   },
   "devDependencies": {
     "can-component": "canjs/can-component#major",
-    "can-observation": "canjs/can-observation#dom-queue",
-    "can-queues": "canjs/can-queues#dom-queue",
+    "can-observation": "^4.2.0",
+    "can-queues": "^1.3.0",
     "can-simple-map": "^4.0.0",
     "can-simple-observable": "^2.0.0",
     "can-stache": "canjs/can-stache#major",
