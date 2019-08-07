@@ -33,25 +33,25 @@
     "can-globals": "<2.0.0",
     "can-symbol": "^1.5.0",
     "can-log": "^1.0.0",
-    "can-view-callbacks": "canjs/can-view-callbacks#major",
+    "can-view-callbacks": "^5.0.0-pre.1",
     "can-import-module": "^1.0.0",
     "can-child-nodes": "^1.0.0"
   },
   "devDependencies": {
-    "can-component": "canjs/can-component#major",
+    "can-component": "^5.0.0-pre.5",
     "can-observation": "^4.2.0",
     "can-queues": "^1.3.0",
     "can-simple-map": "^4.0.0",
     "can-simple-observable": "^2.0.0",
-    "can-stache": "canjs/can-stache#major",
-    "can-stache-bindings": "canjs/can-stache-bindings#major",
+    "can-stache": "^5.0.0-pre.3",
+    "can-stache-bindings": "^5.0.0-pre.4",
     "can-stache-ast": "^1.1.0",
     "can-test-helpers": "^1.0.1",
     "detect-cyclic-packages": "^1.1.0",
     "jshint": "^2.9.1",
     "steal": "^2.2.1",
     "steal-qunit": "^1.0.0",
-    "steal-stache": "canjs/steal-stache#major",
+    "steal-stache": "^5.0.0-pre.2",
     "testee": "^0.9.0"
   }
 }
