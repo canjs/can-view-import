@@ -33,7 +33,7 @@
     "can-globals": "<2.0.0",
     "can-symbol": "^1.5.0",
     "can-log": "^1.0.0",
-    "can-view-callbacks": "^4.0.0",
+    "can-view-callbacks": "^5.0.0",
     "can-view-nodelist": "^4.0.0",
     "can-import-module": "^1.0.0",
     "can-child-nodes": "^1.0.0"
