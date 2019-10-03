@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "bit-docs": "0.0.7",
-    "can-component": "^4.0.0",
+    "can-component": "^5.0.0",
     "can-observation": "^4.0.0",
     "can-queues": "<2.0.0",
     "can-simple-map": "^4.0.0",
