@@ -45,7 +45,7 @@
     "can-queues": "<2.0.0",
     "can-simple-map": "^4.0.0",
     "can-simple-observable": "^2.0.0",
-    "can-stache": "^4.0.0",
+    "can-stache": "^5.0.0",
     "can-test-helpers": "^1.0.1",
     "detect-cyclic-packages": "^1.1.0",
     "jshint": "^2.9.1",
