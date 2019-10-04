@@ -25,7 +25,9 @@
     "detect-cycle": "detect-cyclic-packages --ignore done-serve,steal-stache"
   },
   "main": "can-view-import",
-  "keywords": ["CanJS"],
+  "keywords": [
+    "CanJS"
+  ],
   "dependencies": {
     "can-assign": "^1.0.0",
     "can-dom-data": "^1.0.1",
