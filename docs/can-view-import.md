@@ -16,13 +16,39 @@ Statically import a module from within a [can-stache] template. *MODULE_NAME* wi
 
 @param {moduleName} [MODULE_NAME] A module that this template depends on.
 
+@signature `<can-import from="MODULE_NAME" module.EXPORT_NAME:to="VAR_NAME" />`
+
+Statically import a module from within a [can-stache] template. *MODULE_NAME* will be imported before the template renders. *VAR_NAME* will be set during initial template rendering.
+
+```
+<can-import from="app/helpers/properCase" module.properCase:to="properCaseHelper" />
+<can-import from="app/data/person" module.default:to="person" />
+{{properCaseHelper(person.name)}}
+```
+
+@param {moduleName} [MODULE_NAME] A module that this template depends on.
+@param {exportName} [EXPORT_NAME] The name of the named export of the module. If referencing the default export rather than a named export this should be `module.default:to`. If the module referenced by *MODULE_NAME* is not an ES6 module, you may need to omit this parameter and just bind directly to module, eg. `module:to="foo"`.
+@param {varName} [VAR_NAME] A scope variable name that the loaded module will be set to.
+
 @signature `<can-import from="MODULE_NAME">content</can-import>`
 
 Dynamically import *MODULE_NAME* if *content* is anything other than whitespace; the scope within the template is a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
 ```
 <can-import from="components/tabs">
-  {{#if isResolved}}
+  {{#if (isResolved)}}
+    <tabs-widget />
+  {{/if}}
+</can-import>
+```
+
+@signature `<can-import from="MODULE_NAME">content</can-import>`
+
+Dynamically import *MODULE_NAME* if *content* is anything other than whitespace; the scope within the template is a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+
+```
+<can-import from="components/tabs">
+  {{#if (isResolved)}}
     <tabs-widget />
   {{/if}}
 </can-import>
@@ -36,7 +62,7 @@ Dynamically import *MODULE_NAME*; the scope within the template is a [Promise](h
 
 ```
 <can-dynamic-import from="components/tabs">
-  {{#if isResolved}}
+  {{#if (isResolved)}}
     <tabs-widget />
   {{/if}}
 </can-dynamic-import>
@@ -49,34 +75,28 @@ Dynamically import *MODULE_NAME*; the scope within the template is a [Promise](h
 Dynamically import a module from within a [can-stache] template. Since there is no subtemplate to attach the [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) to as the current scope, you must export the Promise's resolved value to the template's refs scope using [can-view-import.value].
 
 ```
-<can-dynamic-import from="components/tabs" value:to="*tabsWidget" />
-{{#if *tabsWidget}}
+<can-dynamic-import from="components/tabs" value:to="scope.vars.tabsWidget" />
+{{#if scope.vars.tabsWidget}}
 	<tabs-widget />
 {{/if}}
 
 {{! other can-reflect-promise keys also work, as does the *REFERENCE shorthand from can-stache-bindings }}
 
 <can-dynamic-import from="components/tabs" 
-	isPending:to="*tabsWidgetPending"
-	isRejected:to="*tabsWidgetError"
-	this:to"*tabsWidgetPromise" />
-{{#if *tabsWidgetPending}}
+	isPending:to="scope.vars.tabsWidgetPending"
+	isRejected:to="scope.vars.tabsWidgetError"
+	this:to"scope.vars.tabsWidgetPromise" />
+{{#if scope.vars.tabsWidgetPending}}
 	Loading...
 {{else}}
 	<tabs-widget />
-	{{#if *tabsWidgetError}}
-		{{*tabsWidgetPromise.reason}}
+	{{#if scope.vars.tabsWidgetError}}
+		{{scope.vars.tabsWidgetPromise.reason}}
 	{{/if}}
 {{/if}}
 
-{{! load a stache partial 
-	 -- staches are functions, so prefix it with `@` to put the function in the ref scope without running it }}
-
-<can-dynamic-import from "my-partial.stache!" @value:to="*myPartial" />
-
-{{> *myPartial}}
-
-
+<can-dynamic-import from "my-partial.stache" value:to="scope.vars.myPartial" />
+{{> scope.vars.myPartial}}
 ```
 
 @param {moduleName} [MODULE_NAME] A module that this template depends on.

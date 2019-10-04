@@ -1,12 +1,14 @@
 var SimpleMap = require('can-simple-map');
 var stache = require('can-stache');
-var getIntermediateAndImports = require('can-stache/src/intermediate_and_imports');
+var getIntermediateAndImports = require('can-stache-ast').parse;
 var QUnit = require('steal-qunit');
 var importer = require('can-import-module');
 var tag = require('can-view-callbacks').tag;
 var testHelpers = require('can-test-helpers');
 var SimpleObservable = require("can-simple-observable");
 var DOCUMENT = require("can-globals/document/document");
+var person = require('test/person');
+require('can-stache-bindings');
 
 require('./can-view-import');
 
@@ -32,10 +34,10 @@ if(window.steal) {
 
 	if (!System.isEnv('production')) {
 		asyncTest("dynamic imports will only load when in scope", function(){
-			expect(4);
+			expect(3);
 
 			var iai = getIntermediateAndImports("{{#if a}}<can-import from='can-view-import/test/hello'>" +
-			"{{#eq state 'resolved'}}<hello-world></hello-world>{{/eq}}</can-import>{{/if a}}");
+			"{{#eq state 'resolved'}}<hello-world></hello-world>{{/eq}}</can-import>{{/if}}");
 			var template = stache(iai.intermediate);
 
 			var a = new SimpleObservable(false);
@@ -45,9 +47,9 @@ if(window.steal) {
 			a.set(true);
 
 			importer("can-view-import/test/hello").then(function(){
-				equal(res.childNodes[0].childNodes.length, 1, "There is now a nested component");
-				equal(res.childNodes[0].childNodes[0].tagName.toUpperCase(), "HELLO-WORLD", "imported the tag");
-				equal(res.childNodes[0].childNodes[0].childNodes[0].nodeValue, "Hello world!", "text inserted");
+				var element = res.childNodes[1].childNodes[1];
+				equal(element.tagName.toUpperCase(), "HELLO-WORLD", "imported the tag");
+				equal(element.childNodes[0].nodeValue, "Hello world!", "text inserted");
 				start();
 			});
 		});
@@ -63,6 +65,20 @@ if(window.steal) {
 
 		var res = template();
 		equal(res.childNodes[0].childNodes[0].nodeValue, "it worked", "Rendered with the can-tag");
+	});
+
+	asyncTest("if a tagImportMap is in scope, module property is available", function(){
+		var iai = getIntermediateAndImports("<can-import from='can-view-import/test/person' module:to='person'/>{{test(person.name)}}");
+		var template = stache(iai.intermediate);
+		template({
+			tagImportMap: {
+				'can-view-import/test/person': person
+			},
+			test: function(name) {
+				equal(name, person.attr('name'), 'person was available via module binding');
+				start();
+			}
+		});
 	});
 
 	// Issue #2 "can-import can-tag fails silently when tag does not exist"
