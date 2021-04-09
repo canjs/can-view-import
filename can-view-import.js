@@ -7,7 +7,7 @@ var importer = require('can-import-module');
 var domMutateNode = require("can-dom-mutate/node");
 var viewCallbacks = require('can-view-callbacks');
 var tag = viewCallbacks.tag;
-var canLog = require("can-log/");
+var canLog = require("can-log");
 var dev = require("can-log/dev/dev");
 
 function setViewModel (element, viewModel) {
