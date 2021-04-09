@@ -1,6 +1,6 @@
 {
   "name": "can-view-import",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Import dependencies in CanJS views",
   "homepage": "https://canjs.com/doc/can-view-import.html",
   "repository": {
